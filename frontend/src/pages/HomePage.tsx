@@ -13,7 +13,7 @@ export function HomePage() {
                Viete, koľko vám z nájmu <span className="text-teal-900">reálne ostane?</span>
             </h1>
             <p className="mx-auto mt-5 max-w-lg text-lg leading-relaxed text-stone-600 lg:mx-0">
-               Spočítajte čistý príjem po nákladoch a dani — paušálne aj skutočné výdavky. Bez tabuliek a hádania.
+               Spočítajte čistý príjem po nákladoch a dani — pre súkromný prenájom so skutočnými výdavkami. Bez tabuliek a hádania.
             </p>
 
             <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">

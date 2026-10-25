@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react'
+import { NumberField } from '@/components/calculator/NumberField'
+import { ResultRow } from '@/components/calculator/ResultRow'
 import { Card } from '@/components/ui/Card'
 
-type ExpenseMethod = 'flat' | 'actual'
-
-const FLAT_EXPENSE_RATE = 0.4
 const TAX_RATE = 0.19
 
 function parseAmount(value: string): number {
@@ -12,17 +11,17 @@ function parseAmount(value: string): number {
 }
 
 function formatEur(value: number): string {
-   return new Intl.NumberFormat('sk-SK', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(value)
+   return new Intl.NumberFormat('sk-SK', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 }).format(value)
 }
 
-function dummyCalculate(input: { rent: number; vacancyPct: number; monthlyCosts: number; annualCostsMonthly: number; method: ExpenseMethod }) {
+function dummyCalculate(input: { rent: number; vacancyPct: number; monthlyCosts: number; annualCostsMonthly: number }) {
    const effectiveRent = input.rent * (1 - input.vacancyPct / 100)
    const monthlyCashCosts = input.monthlyCosts + input.annualCostsMonthly
    const monthlyCashNet = effectiveRent - monthlyCashCosts
 
    const annualIncome = effectiveRent * 12
    const annualActualExpenses = monthlyCashCosts * 12
-   const annualDeductible = input.method === 'flat' ? annualIncome * FLAT_EXPENSE_RATE : Math.min(annualActualExpenses, annualIncome)
+   const annualDeductible = Math.min(annualActualExpenses, annualIncome)
    const taxableBase = Math.max(0, annualIncome - annualDeductible)
    const annualTax = taxableBase * TAX_RATE
    const monthlyTax = annualTax / 12
@@ -46,7 +45,6 @@ export function CalculatorPage() {
    const [insurance, setInsurance] = useState('12')
    const [otherMonthly, setOtherMonthly] = useState('35')
    const [propertyTaxMonthly, setPropertyTaxMonthly] = useState('50')
-   const [method, setMethod] = useState<ExpenseMethod>('flat')
 
    const result = useMemo(() => {
       return dummyCalculate({
@@ -54,16 +52,16 @@ export function CalculatorPage() {
          vacancyPct: parseAmount(vacancyPct),
          monthlyCosts: parseAmount(management) + parseAmount(insurance) + parseAmount(otherMonthly),
          annualCostsMonthly: parseAmount(propertyTaxMonthly),
-         method,
       })
-   }, [rent, vacancyPct, management, insurance, otherMonthly, propertyTaxMonthly, method])
+   }, [rent, vacancyPct, management, insurance, otherMonthly, propertyTaxMonthly])
 
    return (
       <div className="w-full">
          <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:text-left">
             <h1 className="text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">Kalkulačka príjmu</h1>
             <p className="mt-3 text-stone-600">
-               Zadajte údaje o prenájme. Výpočet je zatiaľ zjednodušený ukážkový model — skutočné slovenské pravidlá doplníme v ďalšej fáze.
+               Zadajte údaje o súkromnom prenájme (§ 6 ods. 3). Výpočet je zjednodušený — daňové výdavky podľa zadaných nákladov; plné slovenské pravidlá doplníme v
+               ďalšej fáze.
             </p>
          </div>
 
@@ -72,29 +70,8 @@ export function CalculatorPage() {
                <fieldset className="space-y-6">
                   <legend className="text-xs font-medium uppercase tracking-wider text-stone-500">Príjem</legend>
                   <div className="grid gap-4 sm:grid-cols-2">
-                     <label className="block">
-                        <span className="text-sm font-medium text-stone-700">Mesačný nájom (EUR)</span>
-                        <input
-                           type="number"
-                           min={0}
-                           step={10}
-                           value={rent}
-                           onChange={e => setRent(e.target.value)}
-                           className="mt-1.5 w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-stone-900 tabular-nums outline-none ring-teal-900/20 focus:border-teal-800 focus:ring-2"
-                        />
-                     </label>
-                     <label className="block">
-                        <span className="text-sm font-medium text-stone-700">Neobsadenosť (%)</span>
-                        <input
-                           type="number"
-                           min={0}
-                           max={100}
-                           step={1}
-                           value={vacancyPct}
-                           onChange={e => setVacancyPct(e.target.value)}
-                           className="mt-1.5 w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-stone-900 tabular-nums outline-none ring-teal-900/20 focus:border-teal-800 focus:ring-2"
-                        />
-                     </label>
+                     <NumberField label="Mesačný nájom (EUR)" value={rent} onChange={setRent} step={10} />
+                     <NumberField label="Neobsadenosť (%)" value={vacancyPct} onChange={setVacancyPct} max={100} />
                   </div>
                </fieldset>
 
@@ -105,14 +82,6 @@ export function CalculatorPage() {
                      <NumberField label="Poistenie" value={insurance} onChange={setInsurance} />
                      <NumberField label="Ostatné" value={otherMonthly} onChange={setOtherMonthly} />
                      <NumberField label="Daň z nehnuteľností (÷12)" value={propertyTaxMonthly} onChange={setPropertyTaxMonthly} />
-                  </div>
-               </fieldset>
-
-               <fieldset className="mt-8">
-                  <legend className="text-xs font-medium uppercase tracking-wider text-stone-500">Výdavky pre daň</legend>
-                  <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-                     <MethodToggle active={method === 'flat'} onClick={() => setMethod('flat')} title="Paušálne výdavky" description="Ukážka: 40 % z príjmu" />
-                     <MethodToggle active={method === 'actual'} onClick={() => setMethod('actual')} title="Skutočné výdavky" description="Podľa zadaných nákladov" />
                   </div>
                </fieldset>
             </Card>
@@ -145,45 +114,6 @@ export function CalculatorPage() {
                </p>
             </aside>
          </div>
-      </div>
-   )
-}
-
-function NumberField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
-   return (
-      <label className="block">
-         <span className="text-sm font-medium text-stone-700">{label}</span>
-         <input
-            type="number"
-            min={0}
-            step={1}
-            value={value}
-            onChange={e => onChange(e.target.value)}
-            className="mt-1.5 w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-stone-900 tabular-nums outline-none ring-teal-900/20 focus:border-teal-800 focus:ring-2"
-         />
-      </label>
-   )
-}
-
-function MethodToggle({ active, onClick, title, description }: { active: boolean; onClick: () => void; title: string; description: string }) {
-   return (
-      <button
-         type="button"
-         onClick={onClick}
-         className={`flex-1 rounded-xl border px-4 py-3 text-left transition ${
-            active ? 'border-teal-800 bg-teal-900/5 ring-2 ring-teal-900/15' : 'border-stone-300 bg-white hover:border-stone-400'
-         }`}
-      >
-         <span className="block text-sm font-medium text-stone-900">{title}</span>
-         <span className="mt-0.5 block text-xs text-stone-500">{description}</span>
-      </button>
-   )
-}
-function ResultRow({ label, value, muted }: { label: string; value: string; muted?: boolean }) {
-   return (
-      <div className="flex items-center justify-between gap-4 border-b border-stone-200/80 pb-3 last:border-0 last:pb-0">
-         <dt className="text-sm text-stone-600">{label}</dt>
-         <dd className={`text-sm font-medium tabular-nums ${muted ? 'text-stone-500' : 'text-stone-900'}`}>{value}</dd>
       </div>
    )
 }

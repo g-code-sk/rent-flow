@@ -31,7 +31,7 @@ export function PreviewCard() {
                <p className="text-sm font-medium text-stone-700">Čistý mesačný príjem</p>
                <p className="text-2xl font-semibold tracking-tight tabular-nums text-teal-900">610 €</p>
             </div>
-            <p className="mt-1 text-xs text-stone-500">Po nákladoch a odhadovanej dani (paušálne výdavky)</p>
+            <p className="mt-1 text-xs text-stone-500">Po nákladoch a odhadovanej dani (skutočné výdavky)</p>
          </div>
       </Card>
    )
