@@ -2,18 +2,17 @@ import { Input } from '@/components/ui/Input'
 import { calculateMonthlyAmount, getInputUnit, MONTHS_PER_YEAR } from '@/lib/calculator'
 import { ExpenseType, type Expense } from '@/lib/expenses'
 import { formatEur, parseAmount } from '@/lib/utils'
-import { useState } from 'react'
 
 type ExpenseLineItemProps = {
    expense: Expense
    value: number
+   yearlyCount: number
    rentMonthly: number
    onInputChange: (value: number) => void
+   onYearlyCountChange: (value: number) => void
 }
 
-export function ExpenseLineItem({ expense, value, rentMonthly, onInputChange }: ExpenseLineItemProps) {
-   const [yearlyCount, setYearlyCount] = useState(1)
-
+export function ExpenseLineItem({ expense, value, yearlyCount, rentMonthly, onInputChange, onYearlyCountChange }: ExpenseLineItemProps) {
    const monthlyAmount = calculateMonthlyAmount(rentMonthly, value, expense.type, yearlyCount)
    const yearlyAmount = monthlyAmount * MONTHS_PER_YEAR
    const { nameSk, descriptionSk, notesSk, inputMin, inputMax, inputStep } = expense
@@ -53,7 +52,7 @@ export function ExpenseLineItem({ expense, value, rentMonthly, onInputChange }: 
                         max="10"
                         step="1"
                         value={yearlyCount}
-                        onChange={e => setYearlyCount(parseInt(e.target.value))}
+                        onChange={e => onYearlyCountChange(parseInt(e.target.value))}
                         aria-label={`${nameSk}, ${yearlyCount}`}
                      />
                      <span className="whitespace-nowrap tabular-nums">krát za rok</span>

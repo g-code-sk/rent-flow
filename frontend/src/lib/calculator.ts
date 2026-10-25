@@ -1,9 +1,19 @@
 import { ExpenseType, type Expense } from './expenses'
 
-export type Form = Record<string, number>
+export const MONTHS_PER_YEAR = 12
+export const TAX_ALLOWANCE = 500
+export const INCOME_TAX_RATE = 0.19
+export const HEALTH_INSURANCE_RATE = 0.15
 
-export function setupCalculatorForm(expenses: Expense[]): Form {
-   const form: Form = {
+export type FormValues = {
+   rentMonthly: number
+} & Record<string, number>
+
+export type FormYearlyCounts = Record<string, number>
+export type FormSummary = Record<string, number>
+
+export function setupCalculatorForm(expenses: Expense[]): FormValues {
+   const form: FormValues = {
       rentMonthly: 850,
    }
 
@@ -14,31 +24,49 @@ export function setupCalculatorForm(expenses: Expense[]): Form {
    return form
 }
 
-export const MONTHS_PER_YEAR = 12
+export function calculateSummary(formValues: FormValues, yearlyCounts: FormYearlyCounts, expenses: Expense[]) {
+   const summary: FormSummary = {}
 
-export function calculateMonthlyAmount(rentMonthly: number, inputValue: number, expenseType: ExpenseType, yearlyCount: number) {
+   expenses.forEach(expense => {
+      summary[expense.id] = calculateMonthlyAmount(formValues.rentMonthly, formValues[expense.id], expense.type, yearlyCounts[expense.id])
+   })
+
+   return summary
+}
+
+export function setupYearlyCounts(expenses: Expense[]) {
+   const yearlyCounts: FormYearlyCounts = {}
+
+   expenses.forEach(expense => {
+      yearlyCounts[expense.id] = 1
+   })
+
+   return yearlyCounts
+}
+
+export function calculateMonthlyAmount(rentMonthly: number, value: number, expenseType: ExpenseType, yearlyCount: number) {
    if (!rentMonthly || rentMonthly <= 0) {
       return 0
    }
 
-   if (!inputValue || inputValue <= 0) {
+   if (!value || value <= 0) {
       return 0
    }
 
    if (expenseType === ExpenseType.PERCENTAGE) {
-      return rentMonthly * (inputValue / 100)
+      return rentMonthly * (value / 100)
    }
 
    if (expenseType === ExpenseType.MONTHLY) {
-      return inputValue
+      return value
    }
 
    if (expenseType === ExpenseType.YEARLY) {
-      return inputValue / MONTHS_PER_YEAR
+      return value / MONTHS_PER_YEAR
    }
 
    if (expenseType === ExpenseType.EXACT) {
-      return (inputValue * yearlyCount) / MONTHS_PER_YEAR
+      return (value * yearlyCount) / MONTHS_PER_YEAR
    }
 
    return 0
