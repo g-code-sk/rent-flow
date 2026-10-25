@@ -1,49 +1,28 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { ExpenseLineItem } from '@/components/calculator/ExpenseLineItem'
 import { NumberField } from '@/components/calculator/NumberField'
 import { ResultRow } from '@/components/calculator/ResultRow'
 import { Card } from '@/components/ui/Card'
-import { getExpenseById } from '@/data/expenseCatalog'
-import { annualAmountFromIncomePercent, annualFromMonthlyAmount, formatEur, parseAmount } from '@/lib/amount'
-
-const MONTH_IN_YEAR = 12
-const vacancyExpense = getExpenseById('vacancyReserve')
-const capexExpense = getExpenseById('capexReserve')
-const hoaExpense = getExpenseById('hoaBuildingFee')
-const repairFundExpense = getExpenseById('repairFund')
+import { createInitialCalculatorInputs, type CalculatorInputs } from '@/lib/calculatorInputs'
+import { computeCalculatorExpenses } from '@/lib/computeCalculatorExpenses'
+import { formatEur } from '@/lib/amount'
 
 export function CalculatorPage() {
-   const [rent, setRent] = useState('850')
-   const [vacancyRate, setVacancyRate] = useState(String(vacancyExpense.defaultValue))
-   const [capexRate, setCapexRate] = useState(String(capexExpense.defaultValue))
-   const [hoaMonthly, setHoaMonthly] = useState(String(hoaExpense.defaultValue))
-   const [repairFundMonthly, setRepairFundMonthly] = useState(String(repairFundExpense.defaultValue))
+   const [inputs, setInputs] = useState<CalculatorInputs>(createInitialCalculatorInputs)
 
-   const expectedMonthlyIncome = parseAmount(rent)
-   const expectedAnnualIncome = expectedMonthlyIncome * MONTH_IN_YEAR
-   const vacancyPercent = parseAmount(vacancyRate)
-   const capexPercent = parseAmount(capexRate)
-   const hoaMonthlyAmount = parseAmount(hoaMonthly)
-   const repairFundMonthlyAmount = parseAmount(repairFundMonthly)
+   const setInput = useCallback(<K extends keyof CalculatorInputs>(key: K, value: CalculatorInputs[K]) => {
+      setInputs(prev => ({ ...prev, [key]: value }))
+   }, [])
 
-   const vacancyAnnual = useMemo(() => annualAmountFromIncomePercent(expectedAnnualIncome, vacancyPercent), [expectedAnnualIncome, vacancyPercent])
-   const vacancyMonthly = vacancyAnnual / MONTH_IN_YEAR
+   const expectedMonthlyIncome = inputs.rent
+   const expectedAnnualIncome = expectedMonthlyIncome * 12
 
-   const capexAnnual = useMemo(() => annualAmountFromIncomePercent(expectedAnnualIncome, capexPercent), [expectedAnnualIncome, capexPercent])
-   const capexMonthly = capexAnnual / MONTH_IN_YEAR
+   const computedExpenses = useMemo(() => computeCalculatorExpenses(inputs, expectedAnnualIncome), [inputs, expectedAnnualIncome])
 
-   const hoaAnnual = useMemo(() => annualFromMonthlyAmount(hoaMonthlyAmount), [hoaMonthlyAmount])
-   const repairFundAnnual = useMemo(() => annualFromMonthlyAmount(repairFundMonthlyAmount), [repairFundMonthlyAmount])
-
-   const netMonthlyIncome = expectedMonthlyIncome - vacancyMonthly - capexMonthly - hoaMonthlyAmount - repairFundMonthlyAmount
-   const netAnnualIncome = expectedAnnualIncome - vacancyAnnual - capexAnnual - hoaAnnual - repairFundAnnual
-
-   const expenseSummaryRows = [
-      { id: vacancyExpense.id, label: vacancyExpense.nameSk, monthly: vacancyMonthly },
-      { id: capexExpense.id, label: capexExpense.nameSk, monthly: capexMonthly },
-      { id: hoaExpense.id, label: hoaExpense.nameSk, monthly: hoaMonthlyAmount },
-      { id: repairFundExpense.id, label: repairFundExpense.nameSk, monthly: repairFundMonthlyAmount },
-   ]
+   const totalMonthlyExpenses = computedExpenses.reduce((sum, expense) => sum + expense.monthlyAmount, 0)
+   const totalAnnualExpenses = computedExpenses.reduce((sum, expense) => sum + expense.annualAmount, 0)
+   const netMonthlyIncome = expectedMonthlyIncome - totalMonthlyExpenses
+   const netAnnualIncome = expectedAnnualIncome - totalAnnualExpenses
 
    return (
       <div className="w-full">
@@ -57,59 +36,28 @@ export function CalculatorPage() {
                <fieldset>
                   <legend className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Príjem</legend>
                   <div className="mt-2">
-                     <NumberField label="Mesačný nájom (EUR)" value={rent} onChange={setRent} step={10} />
+                     <NumberField label="Mesačný nájom (EUR)" value={inputs.rent} onChange={value => setInput('rent', value)} step={10} />
                   </div>
                </fieldset>
 
                <fieldset className="mt-6">
                   <legend className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Výdavky</legend>
                   <div className="mt-1">
-                     <ExpenseLineItem
-                        name={vacancyExpense.nameSk}
-                        description={vacancyExpense.descriptionSk}
-                        note={vacancyExpense.notesSk}
-                        inputValue={vacancyRate}
-                        onInputChange={setVacancyRate}
-                        inputUnit="% z ročného nájmu"
-                        inputMax={100}
-                        inputStep={0.01}
-                        monthlyAmount={vacancyMonthly}
-                        annualAmount={vacancyAnnual}
-                     />
-                     <ExpenseLineItem
-                        name={capexExpense.nameSk}
-                        description={capexExpense.descriptionSk}
-                        note={capexExpense.notesSk}
-                        inputValue={capexRate}
-                        onInputChange={setCapexRate}
-                        inputUnit="% z ročného nájmu"
-                        inputMax={100}
-                        inputStep={0.1}
-                        monthlyAmount={capexMonthly}
-                        annualAmount={capexAnnual}
-                     />
-                     <ExpenseLineItem
-                        name={hoaExpense.nameSk}
-                        description={hoaExpense.descriptionSk}
-                        note={hoaExpense.notesSk}
-                        inputValue={hoaMonthly}
-                        onInputChange={setHoaMonthly}
-                        inputUnit="EUR / mesiac"
-                        inputStep={1}
-                        monthlyAmount={hoaMonthlyAmount}
-                        annualAmount={hoaAnnual}
-                     />
-                     <ExpenseLineItem
-                        name={repairFundExpense.nameSk}
-                        description={repairFundExpense.descriptionSk}
-                        note={repairFundExpense.notesSk}
-                        inputValue={repairFundMonthly}
-                        onInputChange={setRepairFundMonthly}
-                        inputUnit="EUR / mesiac"
-                        inputStep={1}
-                        monthlyAmount={repairFundMonthlyAmount}
-                        annualAmount={repairFundAnnual}
-                     />
+                     {computedExpenses.map(expense => (
+                        <ExpenseLineItem
+                           key={expense.inputKey}
+                           name={expense.catalog.nameSk}
+                           description={expense.catalog.descriptionSk}
+                           note={expense.catalog.notesSk}
+                           inputValue={inputs[expense.inputKey]}
+                           onInputChange={value => setInput(expense.inputKey, value)}
+                           inputUnit={expense.inputUnit}
+                           inputMax={'inputMax' in expense ? expense.inputMax : undefined}
+                           inputStep={expense.inputStep}
+                           monthlyAmount={expense.monthlyAmount}
+                           annualAmount={expense.annualAmount}
+                        />
+                     ))}
                   </div>
                </fieldset>
             </Card>
@@ -122,8 +70,13 @@ export function CalculatorPage() {
                   <dl className="mt-4 space-y-2">
                      <ResultRow label="Nájom (mesačne)" value={formatEur(expectedMonthlyIncome)} />
                      <ResultRow label="Nájom (ročne)" value={formatEur(expectedAnnualIncome)} muted />
-                     {expenseSummaryRows.map(row => (
-                        <ResultRow key={row.id} label={row.label} value={`− ${formatEur(row.monthly)}`} muted />
+                     {computedExpenses.map(expense => (
+                        <ResultRow
+                           key={expense.inputKey}
+                           label={expense.catalog.nameSk}
+                           value={`− ${formatEur(expense.monthlyAmount)}`}
+                           muted
+                        />
                      ))}
                   </dl>
 

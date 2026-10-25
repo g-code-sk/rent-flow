@@ -1,7 +1,9 @@
+import { parseAmount } from '@/lib/amount'
+
 type NumberFieldProps = {
    label: string
-   value: string
-   onChange: (value: string) => void
+   value: number
+   onChange: (value: number) => void
    min?: number
    max?: number
    step?: number
@@ -20,7 +22,7 @@ export function NumberField({ label, value, onChange, min = 0, max, step = 1 }: 
             max={max}
             step={step}
             value={value}
-            onChange={e => onChange(e.target.value)}
+            onChange={e => onChange(parseAmount(e.target.value))}
             className={inputClassName}
          />
       </label>

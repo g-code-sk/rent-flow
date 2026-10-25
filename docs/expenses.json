@@ -60,7 +60,7 @@
       "category": "utilities",
       "periodicity": "monthly",
       "calculationType": "fixedAmount",
-      "defaultValue": 20.0,
+      "defaultValue": 100.0,
       "calculationFormula": "exact_monthly_electricity_advances",
       "notesSk": "Ak je prepísaná priamo na nájomcu, v appke sa eviduje ako 0."
    },
@@ -125,7 +125,7 @@
       "category": "insurance",
       "periodicity": "annual",
       "calculationType": "fixedAmount",
-      "defaultValue": 100.0,
+      "defaultValue": 160.0,
       "calculationFormula": "exact_insurance_premium",
       "notesSk": "Odporúča sa kombinovať poistenie bytu a poistenie zodpovednosti za škodu."
    },
