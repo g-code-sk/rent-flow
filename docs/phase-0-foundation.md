@@ -10,7 +10,7 @@ A boring, maintainable full-stack baseline so feature work in Phase 1 is mostly 
 
 ## Outcomes
 
-- [ ] Repository layout (monorepo recommended: `apps/web`, `apps/api`, `packages/shared`)
+- [ ] Repository layout: API at repo root (`src/`), frontend in `frontend/` (later), shared code in `packages/shared` if needed
 - [ ] TypeScript strict in web + api + shared
 - [ ] PostgreSQL running locally (Docker Compose)
 - [ ] Migrations tool chosen and first migration (users table)
@@ -23,12 +23,11 @@ A boring, maintainable full-stack baseline so feature work in Phase 1 is mostly 
 ## Suggested structure
 
 ```text
-rent-flow/
-  apps/
-    api/          Express + TS
-    web/          React + Vite + TS
+rent-flow/          Express + TS (backend root)
+  src/
+  frontend/         React + Vite + TS (later)
   packages/
-    shared/       Zod schemas, types, tax rules (later)
+    shared/         Zod schemas, types, tax rules (optional)
   docs/
   docker-compose.yml
 ```
