@@ -1,28 +1,29 @@
-import { useCallback, useMemo, useState } from 'react'
 import { ExpenseLineItem } from '@/components/calculator/ExpenseLineItem'
 import { NumberField } from '@/components/calculator/NumberField'
-import { ResultRow } from '@/components/calculator/ResultRow'
 import { Card } from '@/components/ui/Card'
-import { createInitialCalculatorInputs, type CalculatorInputs } from '@/lib/calculatorInputs'
-import { computeCalculatorExpenses } from '@/lib/computeCalculatorExpenses'
-import { formatEur } from '@/lib/amount'
+import { expenses, type Expense } from '@/data/expenses'
+import { useState } from 'react'
+
+type Form = Record<string, number>
+
+function setupForm(expenses: Expense[]): Form {
+   const form: Form = {
+      rentMonthly: 850,
+   }
+
+   expenses.forEach(expense => {
+      form[expense.id] = expense.defaultValue
+   })
+
+   return form
+}
 
 export function CalculatorPage() {
-   const [inputs, setInputs] = useState<CalculatorInputs>(createInitialCalculatorInputs)
+   const [form, setForm] = useState<Form>(setupForm(expenses))
 
-   const setInput = useCallback(<K extends keyof CalculatorInputs>(key: K, value: CalculatorInputs[K]) => {
-      setInputs(prev => ({ ...prev, [key]: value }))
-   }, [])
-
-   const expectedMonthlyIncome = inputs.rent
-   const expectedAnnualIncome = expectedMonthlyIncome * 12
-
-   const computedExpenses = useMemo(() => computeCalculatorExpenses(inputs, expectedAnnualIncome), [inputs, expectedAnnualIncome])
-
-   const totalMonthlyExpenses = computedExpenses.reduce((sum, expense) => sum + expense.monthlyAmount, 0)
-   const totalAnnualExpenses = computedExpenses.reduce((sum, expense) => sum + expense.annualAmount, 0)
-   const netMonthlyIncome = expectedMonthlyIncome - totalMonthlyExpenses
-   const netAnnualIncome = expectedAnnualIncome - totalAnnualExpenses
+   function setFormStateValue(id: string, value: number) {
+      setForm(prev => ({ ...prev, [id]: value }))
+   }
 
    return (
       <div className="w-full">
@@ -36,33 +37,27 @@ export function CalculatorPage() {
                <fieldset>
                   <legend className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Príjem</legend>
                   <div className="mt-2">
-                     <NumberField label="Mesačný nájom (EUR)" value={inputs.rent} onChange={value => setInput('rent', value)} step={10} />
+                     <NumberField label="Mesačný nájom (EUR)" value={form.rentMonthly} onChange={value => setFormStateValue('rentMonthly', value)} step={10} />
                   </div>
                </fieldset>
 
                <fieldset className="mt-6">
                   <legend className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Výdavky</legend>
                   <div className="mt-1">
-                     {computedExpenses.map(expense => (
+                     {expenses.map(expense => (
                         <ExpenseLineItem
-                           key={expense.inputKey}
-                           name={expense.catalog.nameSk}
-                           description={expense.catalog.descriptionSk}
-                           note={expense.catalog.notesSk}
-                           inputValue={inputs[expense.inputKey]}
-                           onInputChange={value => setInput(expense.inputKey, value)}
-                           inputUnit={expense.inputUnit}
-                           inputMax={'inputMax' in expense ? expense.inputMax : undefined}
-                           inputStep={expense.inputStep}
-                           monthlyAmount={expense.monthlyAmount}
-                           annualAmount={expense.annualAmount}
+                           key={expense.id}
+                           expense={expense}
+                           value={form[expense.id]}
+                           rentMonthly={form.rentMonthly}
+                           onInputChange={value => setFormStateValue(expense.id, value)}
                         />
                      ))}
                   </div>
                </fieldset>
             </Card>
 
-            <aside className="lg:sticky lg:top-24">
+            {/* <aside className="lg:sticky lg:top-24">
                <Card className="!p-5 sm:!p-6">
                   <p className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Súhrn</p>
                   <p className="mt-0.5 text-xs text-stone-600">Odhad pred ďalšími položkami katalógu</p>
@@ -90,7 +85,7 @@ export function CalculatorPage() {
                </Card>
 
                <p className="mt-3 text-[11px] leading-relaxed text-stone-500">Toto nie je daňové poradenstvo.</p>
-            </aside>
+            </aside> */}
          </div>
       </div>
    )

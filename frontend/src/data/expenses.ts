@@ -1,0 +1,191 @@
+export enum ExpenseType {
+   PERCENTAGE = 'percentage',
+   MONTHLY = 'monthly',
+   YEARLY = 'yearly',
+   EXACT = 'exact',
+}
+
+export type Expense = {
+   id: string
+   nameSk: string
+   descriptionSk: string
+   notesSk: string
+   defaultValue: number
+   calculationFormula: string
+   type: ExpenseType
+   inputMin: number
+   inputMax?: number
+   inputStep: number
+}
+
+// Ideas for future expenses:
+// - calculate based on m2 area
+// - calculate based on number of tenants
+// - switch between monthly and yearly expenses
+
+export const expenses: Expense[] = [
+   {
+      id: 'vacancyReservePercent',
+      nameSk: 'Rezerva na neobsadenosť',
+      descriptionSk: 'Plánovaný výpadok nájomného medzi nájomcami a s tým spojené platenie fixných režijných nákladov.',
+      notesSk: 'Bežne sa počítal výpadok 0.5 až 1 mesiac ročne (cca 4 % – 8 % z ročného nájomného).',
+      defaultValue: 4.16,
+      calculationFormula: '(monthly_rent * 0.5) to (monthly_rent * 1.0) / 12',
+      type: ExpenseType.PERCENTAGE,
+      inputMin: 0,
+      inputMax: 100,
+      inputStep: 0.01,
+   },
+   {
+      id: 'capexReservePercent',
+      nameSk: 'Rezerva na amortizáciu a obmenu (CapEx)',
+      descriptionSk: 'Fond na obmenu spotrebičov, nábytku, sanity a maľovanie stien po opotrebení.',
+      notesSk: 'Odporúča sa odkladať 5 % až 10 % z mesačného nájmu na budúce opravy a obmenu.',
+      defaultValue: 5.0,
+      calculationFormula: 'monthly_rent * 0.05',
+      type: ExpenseType.PERCENTAGE,
+      inputMin: 0,
+      inputMax: 100,
+      inputStep: 0.01,
+   },
+   {
+      id: 'hoaBuildingFeeMonthly',
+      nameSk: 'Mesačné zálohy správcovi / bytovému družstvu',
+      descriptionSk: 'Zálohy za teplo, teplú/studenú vodu, výťah, osvetlenie a upratovanie spoločných priestorov.',
+      notesSk: 'Udáva sa v presnej sume podľa predpisového listu od správcu.',
+      defaultValue: 0,
+      calculationFormula: 'exact_monthly_invoice',
+      type: ExpenseType.MONTHLY,
+      inputMin: 0,
+      inputStep: 1,
+   },
+   {
+      id: 'repairFund',
+      nameSk: 'Fond prevádzky, údržby a opráv (Fond opráv)',
+      descriptionSk: 'Príspevok správcovi na obnovu bytového domu (zvyčajne súčasť zálohového predpisu).',
+      notesSk: 'Na SK nie je daňovo uznateľný ako výdavok, ak byt nie je v obchodnom majetku, ale je to reálny cash-flow výdavok.',
+      defaultValue: 40.0,
+      calculationFormula: 'm2_area * rate_per_m2',
+      type: ExpenseType.MONTHLY,
+      inputMin: 0,
+      inputStep: 1,
+   },
+   {
+      id: 'electricity',
+      nameSk: 'Elektrina',
+      descriptionSk: 'Mesačné zálohové platby dodávateľovi elektriny.',
+      notesSk: 'Ak je prepísaná priamo na nájomcu, v appke sa eviduje ako 0.',
+      defaultValue: 100.0,
+      calculationFormula: 'exact_monthly_electricity_advances',
+      type: ExpenseType.MONTHLY,
+      inputMin: 0,
+      inputStep: 1,
+   },
+   {
+      id: 'gas',
+      nameSk: 'Plyn',
+      descriptionSk: 'Mesačné zálohové platby dodávateľovi plynu.',
+      notesSk: 'Ak je prepísaný priamo na nájomcu, v appke sa eviduje ako 0.',
+      defaultValue: 20.0,
+      calculationFormula: 'exact_monthly_gas_advances',
+      type: ExpenseType.MONTHLY,
+      inputMin: 0,
+      inputStep: 1,
+   },
+   {
+      id: 'internet',
+      nameSk: 'Internet',
+      descriptionSk: 'Poplatky za internetové pripojenie v byte.',
+      notesSk: 'Zvyčajne sa platí ako pevný balík alebo samostatná zmluva.',
+      defaultValue: 20.0,
+      calculationFormula: 'exact_contract_price',
+      type: ExpenseType.MONTHLY,
+      inputMin: 0,
+      inputStep: 1,
+   },
+   {
+      id: 'tv',
+      nameSk: 'Televízia',
+      descriptionSk: 'Poplatky za káblovú alebo satelitnú televíziu v byte.',
+      notesSk: 'Zvyčajne sa platí ako pevný balík alebo samostatná zmluva.',
+      defaultValue: 5.0,
+      calculationFormula: 'exact_contract_price',
+      type: ExpenseType.MONTHLY,
+      inputMin: 0,
+      inputStep: 1,
+   },
+   {
+      id: 'propertyTax',
+      nameSk: 'Daň z nehnuteľností',
+      descriptionSk: 'Miestna daň za byt a podiel na pozemku platená obci/mestu.',
+      notesSk: 'Závisí od lokality a rozlohy bytu.',
+      defaultValue: 50.0,
+      calculationFormula: 'exact_city_tax_assessmen',
+      type: ExpenseType.YEARLY,
+      inputMin: 0,
+      inputStep: 1,
+   },
+   {
+      id: 'propertyInsurance',
+      nameSk: 'Poistenie nehnuteľnosti a zodpovednosti',
+      descriptionSk: 'Ročné poistenie stien, domácnosti a poistenie škôd spôsobených tretím osobám.',
+      notesSk: 'Odporúča sa kombinovať poistenie bytu a poistenie zodpovednosti za škodu.',
+      defaultValue: 160.0,
+      calculationFormula: 'exact_insurance_premium',
+      type: ExpenseType.YEARLY,
+      inputMin: 0,
+      inputStep: 1,
+   },
+   {
+      id: 'applianceBoilerService',
+      nameSk: 'Pravidelný servis a revízie',
+      descriptionSk: 'Ročná revízia plynového kotla, servisy klimatizácie a kontrola komínov.',
+      notesSk: 'Povinné pri vlastnom plynofikovateľnom vykurovaní.',
+      defaultValue: 80.0,
+      calculationFormula: 'exact_service_cost',
+      type: ExpenseType.YEARLY,
+      inputMin: 0,
+      inputStep: 1,
+   },
+   {
+      id: 'legalNotaryFees',
+      nameSk: 'Právne a notárske poplatky',
+      descriptionSk: 'Vypracovanie zmluvy advokátom, overenie podpisov, prípadne notárska zápisnica.',
+      notesSk: 'Notárska zápisnica s exekučným titulom stojí cca 100 € – 200 €.',
+      defaultValue: 0,
+      calculationFormula: 'exact_legal_invoice',
+      type: ExpenseType.EXACT,
+      inputMin: 0,
+      inputStep: 1,
+   },
+   {
+      id: 'realtorCommission',
+      nameSk: 'Provízia realitnej kancelárii',
+      descriptionSk: 'Odmena realitnému maklérovi za nájdenie nájomcu a preverenie záujemcov.',
+      notesSk: 'Zvyčajne vo výške 1 mesačného nájmu pri uzatvorení zmluvy.',
+      defaultValue: 0.0,
+      calculationFormula: '1.0 * monthly_rent / expected_lease_years',
+      type: ExpenseType.EXACT,
+      inputMin: 0,
+      inputStep: 1,
+   },
+   // {
+   //    id: 'incomeTaxSk',
+   //    nameSk: 'Daň z príjmu (§ 6 ods. 3)',
+   //    descriptionSk: 'Daň z príjmu po uplatnení 500 € oslobodenia a alikvótnych skutočných výdavkov.',
+   //    notesSk: 'Sadzba dane je 19 % (alebo 25 % pri prekročení hranice základu dane).',
+   //    defaultValue: 0.0,
+   //    calculationFormula: 'taxable_base = (gross_income - 500) - (real_expenses * ((grss_income - 500) / gross_income)); tax = taxable_base * tax_rate',
+   //    type: ExpenseType.EXACT,
+   //    inputMin: 0,
+   //    inputStep: 1,
+   // },
+   // {
+   //    id: 'healthInsuranceSk',
+   //    nameSk: 'Zdravotné odvody z prenájmu',
+   //    descriptionSk: 'Odvody do zdravotnej poisťovne vymerané v ročnom zúčtovaní zo základu dane z prenájmu.',
+   //    notesSk: 'Sadzba zdravotných odvodov je 15 % zo základu dane vymeraného v RZ ZP.',
+   //    defaultValue: 0.0,
+   //    calculationFormula: 'taxable_base * 0.15',
+   // },
+]
