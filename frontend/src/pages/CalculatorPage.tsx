@@ -1,25 +1,12 @@
 import { ExpenseLineItem } from '@/components/calculator/ExpenseLineItem'
 import { NumberField } from '@/components/calculator/NumberField'
 import { Card } from '@/components/ui/Card'
-import { expenses, type Expense } from '@/data/expenses'
+import { setupCalculatorForm, type Form } from '@/lib/calculator'
+import { expenses } from '@/lib/expenses'
 import { useState } from 'react'
 
-type Form = Record<string, number>
-
-function setupForm(expenses: Expense[]): Form {
-   const form: Form = {
-      rentMonthly: 850,
-   }
-
-   expenses.forEach(expense => {
-      form[expense.id] = expense.defaultValue
-   })
-
-   return form
-}
-
 export function CalculatorPage() {
-   const [form, setForm] = useState<Form>(setupForm(expenses))
+   const [form, setForm] = useState<Form>(setupCalculatorForm(expenses))
 
    function setFormStateValue(id: string, value: number) {
       setForm(prev => ({ ...prev, [id]: value }))
