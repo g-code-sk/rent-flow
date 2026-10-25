@@ -33,11 +33,10 @@ export function CalculatorPage() {
 
    const rentYearly = formValues.rentMonthly * MONTHS_PER_YEAR
 
-   const expensesMonthly = expenses.filter(expense => formValues[expense.id] > 0).reduce((acc, expense) => acc + formValues[expense.id], 0)
+   const expensesMonthly = expenses.filter(expense => summary[expense.id] > 0).reduce((acc, expense) => acc + summary[expense.id], 0)
    const expensesYearly = expensesMonthly * MONTHS_PER_YEAR
-   const expensesDeductibleMonthly = expenses
-      .filter(expense => formValues[expense.id] > 0 && expense.taxDeductible)
-      .reduce((acc, expense) => acc + formValues[expense.id], 0)
+
+   const expensesDeductibleMonthly = expenses.filter(expense => summary[expense.id] > 0 && expense.taxDeductible).reduce((acc, expense) => acc + summary[expense.id], 0)
    const expensesDeductibleYearly = expensesDeductibleMonthly * MONTHS_PER_YEAR
 
    const incomeBeforeTaxes = rentYearly - expensesYearly
@@ -88,22 +87,29 @@ export function CalculatorPage() {
                   <p className="mt-0.5 text-xs text-stone-600">Odhad pred ďalšími položkami katalógu</p>
 
                   <dl className="mt-4 space-y-0">
-                     <ResultRow label="Nájom" value={formatEur(formValues.rentMonthly)} />
+                     <ResultRow label="Nájom" value={formatEur(formValues.rentMonthly)} secondary={`${formatEur(formValues.rentMonthly * MONTHS_PER_YEAR)} / rok`} />
                      {expenses
                         .filter(expense => formValues[expense.id] > 0)
                         .map(expense => (
-                           <ResultRow key={expense.id} label={expense.nameSk} value={`− ${formatEur(summary[expense.id])}`} muted />
+                           <ResultRow
+                              key={expense.id}
+                              label={expense.nameSk}
+                              value={`− ${formatEur(summary[expense.id])}`}
+                              secondary={`${formatEur(summary[expense.id] * MONTHS_PER_YEAR)} / rok`}
+                              taxDeductible={expense.taxDeductible}
+                              muted
+                           />
                         ))}
                   </dl>
 
-                  {/* <div className="mt-5 rounded-xl bg-stone-50/90 px-3.5 py-3.5 ring-1 ring-inset ring-stone-200/80">
+                  <div className="mt-5 rounded-xl bg-stone-50/90 px-3.5 py-3.5 ring-1 ring-inset ring-stone-200/80">
                      <p className="text-[11px] font-medium uppercase tracking-wider text-stone-400">Po výdavkoch</p>
-                     <dl className="mt-2.5 space-y-0">
+                     <dl className="space-y-0">
                         <ResultRow label="Výdavky spolu" value={`− ${formatEur(expensesMonthly)}`} secondary={`${formatEur(expensesYearly)} / rok`} muted />
                         <ResultRow label="Príjem pred daňou" value={formatEur(incomeBeforeTaxes / MONTHS_PER_YEAR)} secondary={`${formatEur(incomeBeforeTaxes)} / rok`} />
                      </dl>
 
-                     <div className="mt-3.5 border-t border-stone-200/80 pt-3.5">
+                     <div className="border-t border-stone-200/80 pt-3.5">
                         <p className="text-[11px] font-medium uppercase tracking-wider text-stone-400">Daň a odvody</p>
                         <dl className="mt-2.5 space-y-0">
                            <ResultRow label="Základ dane" value={formatEur(incomeTaxable)} muted />
@@ -111,15 +117,15 @@ export function CalculatorPage() {
                            <ResultRow label="Zdravotné odvody (15 %)" value={`− ${formatEur(healthInsurancePayable)}`} muted />
                         </dl>
                      </div>
-                  </div> */}
+                  </div>
 
-                  {/* <div className="mt-3 rounded-xl bg-teal-950/5 px-3.5 py-3 ring-1 ring-teal-900/10">
+                  <div className="mt-3 rounded-xl bg-teal-950/5 px-3.5 py-3 ring-1 ring-teal-900/10">
                      <div className="flex items-end justify-between gap-4">
                         <p className="text-sm font-medium text-stone-700">Čistý príjem</p>
                         <p className="text-xl font-semibold tracking-tight tabular-nums text-teal-900">{formatEur(netIncome / MONTHS_PER_YEAR)}</p>
                      </div>
                      <p className="mt-0.5 text-right text-[11px] tabular-nums text-stone-500">{formatEur(netIncome)} / rok</p>
-                  </div> */}
+                  </div>
                </Card>
 
                <p className="mt-3 text-[11px] leading-relaxed text-stone-500">Toto nie je daňové poradenstvo.</p>

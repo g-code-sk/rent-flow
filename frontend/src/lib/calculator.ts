@@ -14,7 +14,7 @@ export type FormSummary = Record<string, number>
 
 export function setupCalculatorForm(expenses: Expense[]): FormValues {
    const form: FormValues = {
-      rentMonthly: 850,
+      rentMonthly: 750,
    }
 
    expenses.forEach(expense => {
