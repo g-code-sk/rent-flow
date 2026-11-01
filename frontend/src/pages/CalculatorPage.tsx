@@ -1,59 +1,29 @@
 import { CalculatorSummary } from '@/components/calculator/CalculatorSummary'
+import { ExpenseCatalogRow } from '@/components/calculator/ExpenseCatalogRow'
 import { ExpenseLineItem } from '@/components/calculator/ExpenseLineItem'
 import { NumberField } from '@/components/calculator/NumberField'
-import { PlusIcon } from '@/components/ui/icons/PlusIcon'
 import { ResetIcon } from '@/components/ui/icons/ResetIcon'
 import { SparklesIcon } from '@/components/ui/icons/SparklesIcon'
 import { Card } from '@/components/ui/Card'
 import { TextButton } from '@/components/ui/TextButton'
-import { createEmptyCalculatorForm, getDemoActiveExpenseIds, setupCalculatorForm, setupYearlyCounts, type FormValues, type FormYearlyCounts } from '@/lib/calculator'
-import { expenses } from '@/lib/expenses'
-import { useState } from 'react'
+import { useCalculator } from '@/hooks/useCalculator'
 
 export function CalculatorPage() {
-   const [formValues, setFormValues] = useState<FormValues>(() => createEmptyCalculatorForm(expenses))
-   const [formYearlyCounts, setFormYearlyCounts] = useState<FormYearlyCounts>(() => setupYearlyCounts(expenses))
-   const [activeExpenseIds, setActiveExpenseIds] = useState<string[]>([])
-   const [taxDetailsOpen, setTaxDetailsOpen] = useState(false)
-
-   function setFormStateValue(id: string, value: number) {
-      setFormValues(prev => ({ ...prev, [id]: value }))
-   }
-
-   function setFormYearlyCount(id: string, value: number) {
-      setFormYearlyCounts(prev => ({ ...prev, [id]: value }))
-   }
-
-   function addExpense(id: string) {
-      setActiveExpenseIds(prev => (prev.includes(id) ? prev : [...prev, id]))
-   }
-
-   function removeExpense(id: string) {
-      setFormValues(prev => ({ ...prev, [id]: 0 }))
-      setFormYearlyCounts(prev => ({ ...prev, [id]: 1 }))
-      setActiveExpenseIds(prev => prev.filter(activeId => activeId !== id))
-   }
-
-   function loadDemo() {
-      setFormValues(setupCalculatorForm(expenses))
-      setFormYearlyCounts(setupYearlyCounts(expenses))
-      setActiveExpenseIds(getDemoActiveExpenseIds(expenses))
-      setTaxDetailsOpen(true)
-   }
-
-   function resetCalculator() {
-      setFormValues(createEmptyCalculatorForm(expenses))
-      setFormYearlyCounts(setupYearlyCounts(expenses))
-      setActiveExpenseIds([])
-      setTaxDetailsOpen(false)
-   }
-
-   const hasStarted = formValues.rentMonthly > 0 || activeExpenseIds.length > 0
-
-   const activeExpenses = activeExpenseIds
-      .map(id => expenses.find(expense => expense.id === id))
-      .filter((expense): expense is (typeof expenses)[number] => Boolean(expense))
-   const catalogExpenses = expenses.filter(expense => !activeExpenseIds.includes(expense.id))
+   const {
+      formValues,
+      formYearlyCounts,
+      taxDetailsOpen,
+      hasStarted,
+      activeExpenses,
+      catalogExpenses,
+      setFormStateValue,
+      setFormYearlyCount,
+      addExpense,
+      removeExpense,
+      loadDemo,
+      resetCalculator,
+      setTaxDetailsOpen,
+   } = useCalculator()
 
    return (
       <div className="w-full">
@@ -118,15 +88,7 @@ export function CalculatorPage() {
                            <p className="text-[11px] font-medium uppercase tracking-wider text-stone-400">Katalóg</p>
                            <ul className="mt-2 divide-y divide-stone-200/80">
                               {catalogExpenses.map(expense => (
-                                 <li key={expense.id} className="flex items-start justify-between gap-3 py-2.5">
-                                    <div className="min-w-0">
-                                       <p className="text-sm font-medium text-stone-800">{expense.nameSk}</p>
-                                       <p className="mt-0.5 text-xs leading-relaxed text-stone-500">{expense.descriptionSk}</p>
-                                    </div>
-                                    <TextButton icon={<PlusIcon />} onClick={() => addExpense(expense.id)}>
-                                       Pridať
-                                    </TextButton>
-                                 </li>
+                                 <ExpenseCatalogRow key={expense.id} expense={expense} onAdd={added => addExpense(added.id)} />
                               ))}
                            </ul>
                         </div>
