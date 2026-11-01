@@ -23,7 +23,7 @@ A boring, maintainable full-stack baseline so feature work in Phase 1 is mostly 
 ## Suggested structure
 
 ```text
-rent-flow/          Express + TS (backend root)
+RentFlow/          Express + TS (backend root)
   src/
   frontend/         React + Vite + TS (later)
   packages/
@@ -36,10 +36,10 @@ rent-flow/          Express + TS (backend root)
 
 Pick one and stick to it for Phase 1:
 
-| Option | Pros |
-|--------|------|
+| Option                        | Pros                                               |
+| ----------------------------- | -------------------------------------------------- |
 | Session cookie + server store | Familiar from Laravel; simple SPA with credentials |
-| JWT access + httpOnly refresh | Stateless API; slightly more moving parts |
+| JWT access + httpOnly refresh | Stateless API; slightly more moving parts          |
 
 Requirements:
 
@@ -69,14 +69,14 @@ Requirements:
 
 ## Laravel → Node/React cheat sheet
 
-| Laravel | Rent-flow |
-|---------|-----------|
-| `routes/web.php` | React Router |
-| `routes/api.php` | Express `routes/` |
-| Form Request | Zod + middleware |
-| Service class | `services/` plain TS modules |
-| Eloquent | Prisma/Drizzle |
-| `.env` | `apps/api/.env` + Vite `VITE_*` |
+| Laravel          | RentFlow                        |
+| ---------------- | ------------------------------- |
+| `routes/web.php` | React Router                    |
+| `routes/api.php` | Express `routes/`               |
+| Form Request     | Zod + middleware                |
+| Service class    | `services/` plain TS modules    |
+| Eloquent         | Prisma/Drizzle                  |
+| `.env`           | `apps/api/.env` + Vite `VITE_*` |
 
 ## Tasks checklist
 

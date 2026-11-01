@@ -12,6 +12,18 @@ export type FormValues = {
 export type FormYearlyCounts = Record<string, number>
 export type FormSummary = Record<string, number>
 
+export function createEmptyCalculatorForm(expenses: Expense[]): FormValues {
+   const form: FormValues = {
+      rentMonthly: 0,
+   }
+
+   expenses.forEach(expense => {
+      form[expense.id] = 0
+   })
+
+   return form
+}
+
 export function setupCalculatorForm(expenses: Expense[]): FormValues {
    const form: FormValues = {
       rentMonthly: 750,
@@ -22,6 +34,10 @@ export function setupCalculatorForm(expenses: Expense[]): FormValues {
    })
 
    return form
+}
+
+export function getDemoActiveExpenseIds(expenses: Expense[]): string[] {
+   return expenses.filter(expense => expense.defaultValue > 0).map(expense => expense.id)
 }
 
 export function calculateSummary(formValues: FormValues, yearlyCounts: FormYearlyCounts, expenses: Expense[]) {

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CheckIcon } from '@/components/CheckIcon'
+import { CheckIcon } from '@/components/ui/icons/CheckIcon'
 import { PreviewCard } from '@/components/PreviewCard'
 
 export function HomePage() {

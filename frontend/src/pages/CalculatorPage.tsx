@@ -1,25 +1,20 @@
+import { CalculatorSummary } from '@/components/calculator/CalculatorSummary'
 import { ExpenseLineItem } from '@/components/calculator/ExpenseLineItem'
 import { NumberField } from '@/components/calculator/NumberField'
-import { ResultRow } from '@/components/calculator/ResultRow'
+import { PlusIcon } from '@/components/ui/icons/PlusIcon'
+import { ResetIcon } from '@/components/ui/icons/ResetIcon'
+import { SparklesIcon } from '@/components/ui/icons/SparklesIcon'
 import { Card } from '@/components/ui/Card'
-import {
-   calculateSummary,
-   HEALTH_INSURANCE_RATE,
-   INCOME_TAX_RATE,
-   MONTHS_PER_YEAR,
-   setupCalculatorForm,
-   setupYearlyCounts,
-   TAX_ALLOWANCE,
-   type FormValues,
-   type FormYearlyCounts,
-} from '@/lib/calculator'
+import { TextButton } from '@/components/ui/TextButton'
+import { createEmptyCalculatorForm, getDemoActiveExpenseIds, setupCalculatorForm, setupYearlyCounts, type FormValues, type FormYearlyCounts } from '@/lib/calculator'
 import { expenses } from '@/lib/expenses'
-import { formatEur } from '@/lib/utils'
 import { useState } from 'react'
 
 export function CalculatorPage() {
-   const [formValues, setFormValues] = useState<FormValues>(setupCalculatorForm(expenses))
-   const [formYearlyCounts, setFormYearlyCounts] = useState<FormYearlyCounts>(setupYearlyCounts(expenses))
+   const [formValues, setFormValues] = useState<FormValues>(() => createEmptyCalculatorForm(expenses))
+   const [formYearlyCounts, setFormYearlyCounts] = useState<FormYearlyCounts>(() => setupYearlyCounts(expenses))
+   const [activeExpenseIds, setActiveExpenseIds] = useState<string[]>([])
+   const [taxDetailsOpen, setTaxDetailsOpen] = useState(false)
 
    function setFormStateValue(id: string, value: number) {
       setFormValues(prev => ({ ...prev, [id]: value }))
@@ -29,107 +24,118 @@ export function CalculatorPage() {
       setFormYearlyCounts(prev => ({ ...prev, [id]: value }))
    }
 
-   const summary = calculateSummary(formValues, formYearlyCounts, expenses)
+   function addExpense(id: string) {
+      setActiveExpenseIds(prev => (prev.includes(id) ? prev : [...prev, id]))
+   }
 
-   const rentYearly = formValues.rentMonthly * MONTHS_PER_YEAR
+   function removeExpense(id: string) {
+      setFormValues(prev => ({ ...prev, [id]: 0 }))
+      setFormYearlyCounts(prev => ({ ...prev, [id]: 1 }))
+      setActiveExpenseIds(prev => prev.filter(activeId => activeId !== id))
+   }
 
-   const expensesMonthly = expenses.filter(expense => summary[expense.id] > 0).reduce((acc, expense) => acc + summary[expense.id], 0)
-   const expensesYearly = expensesMonthly * MONTHS_PER_YEAR
+   function loadDemo() {
+      setFormValues(setupCalculatorForm(expenses))
+      setFormYearlyCounts(setupYearlyCounts(expenses))
+      setActiveExpenseIds(getDemoActiveExpenseIds(expenses))
+      setTaxDetailsOpen(true)
+   }
 
-   const expensesDeductibleMonthly = expenses.filter(expense => summary[expense.id] > 0 && expense.taxDeductible).reduce((acc, expense) => acc + summary[expense.id], 0)
-   const expensesDeductibleYearly = expensesDeductibleMonthly * MONTHS_PER_YEAR
+   function resetCalculator() {
+      setFormValues(createEmptyCalculatorForm(expenses))
+      setFormYearlyCounts(setupYearlyCounts(expenses))
+      setActiveExpenseIds([])
+      setTaxDetailsOpen(false)
+   }
 
-   const incomeBeforeTaxes = rentYearly - expensesYearly
-   const incomeTaxable = Math.max(0, rentYearly - TAX_ALLOWANCE - expensesDeductibleYearly)
+   const hasStarted = formValues.rentMonthly > 0 || activeExpenseIds.length > 0
 
-   const taxPayable = incomeTaxable * INCOME_TAX_RATE
-   const healthInsurancePayable = incomeTaxable * HEALTH_INSURANCE_RATE
-
-   const netIncome = incomeBeforeTaxes - taxPayable - healthInsurancePayable
+   const activeExpenses = activeExpenseIds
+      .map(id => expenses.find(expense => expense.id === id))
+      .filter((expense): expense is (typeof expenses)[number] => Boolean(expense))
+   const catalogExpenses = expenses.filter(expense => !activeExpenseIds.includes(expense.id))
 
    return (
       <div className="w-full">
          <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:text-left">
             <h1 className="text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">Kalkulačka príjmu</h1>
             <p className="mt-3 text-stone-600">Zadajte očakávaný mesačný nájom a upravte výdavky podľa katalógu — položky pribúdajú postupne.</p>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 lg:justify-start">
+               <TextButton icon={<SparklesIcon />} onClick={loadDemo}>
+                  Načítať ukážku
+               </TextButton>
+               {hasStarted ? (
+                  <TextButton color="red" icon={<ResetIcon />} onClick={resetCalculator}>
+                     Vymazať a začať znova
+                  </TextButton>
+               ) : null}
+            </div>
+            <p className="mt-1.5 text-xs text-stone-500">Ukážkové čísla — ilustrácia</p>
          </div>
 
-         <div className="mt-10 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-10">
-            <Card as="form" className="!p-5 sm:!p-6" onSubmit={e => e.preventDefault()}>
-               <fieldset>
-                  <legend className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Príjem</legend>
-                  <div className="mt-2">
-                     <NumberField label="Mesačný nájom (EUR)" value={formValues.rentMonthly} onChange={value => setFormStateValue('rentMonthly', value)} step={10} />
-                  </div>
-               </fieldset>
-
-               <fieldset className="mt-6">
-                  <legend className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Výdavky</legend>
-                  <div className="mt-1">
-                     {expenses.map(expense => (
-                        <ExpenseLineItem
-                           key={expense.id}
-                           expense={expense}
-                           value={formValues[expense.id]}
-                           yearlyCount={formYearlyCounts[expense.id]}
-                           rentMonthly={formValues.rentMonthly}
-                           onInputChange={value => setFormStateValue(expense.id, value)}
-                           onYearlyCountChange={value => setFormYearlyCount(expense.id, value)}
-                        />
-                     ))}
-                  </div>
-               </fieldset>
-            </Card>
-
-            <aside className="lg:sticky lg:top-24">
+         <div className="mt-10 grid gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-6">
+            <form className="grid gap-4 lg:gap-6" onSubmit={e => e.preventDefault()}>
                <Card className="!p-5 sm:!p-6">
-                  <p className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Súhrn</p>
-                  <p className="mt-0.5 text-xs text-stone-600">Odhad pred ďalšími položkami katalógu</p>
-
-                  <dl className="mt-4 space-y-0">
-                     <ResultRow label="Nájom" value={formatEur(formValues.rentMonthly)} secondary={`${formatEur(formValues.rentMonthly * MONTHS_PER_YEAR)} / rok`} />
-                     {expenses
-                        .filter(expense => formValues[expense.id] > 0)
-                        .map(expense => (
-                           <ResultRow
-                              key={expense.id}
-                              label={expense.nameSk}
-                              value={`− ${formatEur(summary[expense.id])}`}
-                              secondary={`${formatEur(summary[expense.id] * MONTHS_PER_YEAR)} / rok`}
-                              taxDeductible={expense.taxDeductible}
-                              muted
-                           />
-                        ))}
-                  </dl>
-
-                  <div className="mt-5 rounded-xl bg-stone-50/90 px-3.5 py-3.5 ring-1 ring-inset ring-stone-200/80">
-                     <p className="text-[11px] font-medium uppercase tracking-wider text-stone-400">Po výdavkoch</p>
-                     <dl className="space-y-0">
-                        <ResultRow label="Výdavky spolu" value={`− ${formatEur(expensesMonthly)}`} secondary={`${formatEur(expensesYearly)} / rok`} muted />
-                        <ResultRow label="Príjem pred daňou" value={formatEur(incomeBeforeTaxes / MONTHS_PER_YEAR)} secondary={`${formatEur(incomeBeforeTaxes)} / rok`} />
-                     </dl>
-
-                     <div className="border-t border-stone-200/80 pt-3.5">
-                        <p className="text-[11px] font-medium uppercase tracking-wider text-stone-400">Daň a odvody</p>
-                        <dl className="mt-2.5 space-y-0">
-                           <ResultRow label="Základ dane" value={formatEur(incomeTaxable)} muted />
-                           <ResultRow label="Daň z príjmu (19 %)" value={`− ${formatEur(taxPayable)}`} muted />
-                           <ResultRow label="Zdravotné odvody (15 %)" value={`− ${formatEur(healthInsurancePayable)}`} muted />
-                        </dl>
+                  <fieldset>
+                     <legend className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Príjem</legend>
+                     <div className="mt-2">
+                        <NumberField
+                           label="Mesačný nájom (EUR)"
+                           value={formValues.rentMonthly}
+                           onChange={value => setFormStateValue('rentMonthly', value)}
+                           step={10}
+                           placeholder="750"
+                           emptyWhenZero
+                        />
                      </div>
-                  </div>
-
-                  <div className="mt-3 rounded-xl bg-teal-950/5 px-3.5 py-3 ring-1 ring-teal-900/10">
-                     <div className="flex items-end justify-between gap-4">
-                        <p className="text-sm font-medium text-stone-700">Čistý príjem</p>
-                        <p className="text-xl font-semibold tracking-tight tabular-nums text-teal-900">{formatEur(netIncome / MONTHS_PER_YEAR)}</p>
-                     </div>
-                     <p className="mt-0.5 text-right text-[11px] tabular-nums text-stone-500">{formatEur(netIncome)} / rok</p>
-                  </div>
+                  </fieldset>
                </Card>
 
-               <p className="mt-3 text-[11px] leading-relaxed text-stone-500">Toto nie je daňové poradenstvo.</p>
-            </aside>
+               <Card className="!p-5 sm:!p-6">
+                  <fieldset>
+                     <legend className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Výdavky</legend>
+                     {activeExpenses.length === 0 ? (
+                        <p className="mt-2 text-sm text-stone-500">Pridajte výdavky, ktoré platíte vy (nie nájomník).</p>
+                     ) : (
+                        <div className="mt-1">
+                           {activeExpenses.map(expense => (
+                              <ExpenseLineItem
+                                 key={expense.id}
+                                 expense={expense}
+                                 value={formValues[expense.id]}
+                                 yearlyCount={formYearlyCounts[expense.id]}
+                                 rentMonthly={formValues.rentMonthly}
+                                 onInputChange={value => setFormStateValue(expense.id, value)}
+                                 onYearlyCountChange={value => setFormYearlyCount(expense.id, value)}
+                                 onRemove={() => removeExpense(expense.id)}
+                              />
+                           ))}
+                        </div>
+                     )}
+
+                     {catalogExpenses.length > 0 ? (
+                        <div className={activeExpenses.length > 0 ? 'mt-5 border-t border-stone-200/80 pt-4' : 'mt-4'}>
+                           <p className="text-[11px] font-medium uppercase tracking-wider text-stone-400">Katalóg</p>
+                           <ul className="mt-2 divide-y divide-stone-200/80">
+                              {catalogExpenses.map(expense => (
+                                 <li key={expense.id} className="flex items-start justify-between gap-3 py-2.5">
+                                    <div className="min-w-0">
+                                       <p className="text-sm font-medium text-stone-800">{expense.nameSk}</p>
+                                       <p className="mt-0.5 text-xs leading-relaxed text-stone-500">{expense.descriptionSk}</p>
+                                    </div>
+                                    <TextButton icon={<PlusIcon />} onClick={() => addExpense(expense.id)}>
+                                       Pridať
+                                    </TextButton>
+                                 </li>
+                              ))}
+                           </ul>
+                        </div>
+                     ) : null}
+                  </fieldset>
+               </Card>
+            </form>
+
+            <CalculatorSummary formValues={formValues} yearlyCounts={formYearlyCounts} taxDetailsOpen={taxDetailsOpen} onTaxDetailsOpenChange={setTaxDetailsOpen} />
          </div>
       </div>
    )

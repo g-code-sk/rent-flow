@@ -1,16 +1,16 @@
-# Rent-flow — product roadmap (docs)
+# RentFlow — product roadmap (docs)
 
-Documentation for building **Rent-flow**: a SPA for **Slovak private landlords** who **long-term rent** residential property (typical nájom bytu / domu, not short-term platforms).
+Documentation for building **RentFlow**: a SPA for **Slovak private landlords** who **long-term rent** residential property (typical nájom bytu / domu, not short-term platforms).
 
 ## MVP scope
 
-| In scope (MVP) | Out of scope (later) |
-|----------------|----------------------|
-| Private individual landlords (FO) | Živnostník / s.r.o. portfolio tooling |
-| Long-term leases (monthly rent) | Airbnb / Booking / short-term |
-| Calculator + save scenario | Full electronic filing to Finančná správa |
-| One property per user (expand in Phase 2) | VAT-heavy workflows |
-| Slovak UI first | Bank API integrations |
+| In scope (MVP)                            | Out of scope (later)                      |
+| ----------------------------------------- | ----------------------------------------- |
+| Private individual landlords (FO)         | Živnostník / s.r.o. portfolio tooling     |
+| Long-term leases (monthly rent)           | Airbnb / Booking / short-term             |
+| Calculator + save scenario                | Full electronic filing to Finančná správa |
+| One property per user (expand in Phase 2) | VAT-heavy workflows                       |
+| Slovak UI first                           | Bank API integrations                     |
 
 **Tech stack:** Express, React, TypeScript, PostgreSQL (SPA + REST API).
 
@@ -18,14 +18,14 @@ Documentation for building **Rent-flow**: a SPA for **Slovak private landlords**
 
 ## Phases (read in order)
 
-| Phase | Doc | Goal |
-|-------|-----|------|
-| 0 | [phase-0-foundation.md](./phase-0-foundation.md) | Repo, API, DB, auth, shared validation |
-| 1 | [phase-1-calculator-mvp.md](./phase-1-calculator-mvp.md) | **MVP launch:** net income calculator |
-| 2 | [phase-2-properties-ledger.md](./phase-2-properties-ledger.md) | Track income & expenses |
-| 3 | [phase-3-tax-year-close.md](./phase-3-tax-year-close.md) | Annual report & accountant export |
-| 4 | [phase-4-retention-monetization.md](./phase-4-retention-monetization.md) | Reminders, tiers, accountant access |
-| 5 | [phase-5-nice-to-haves.md](./phase-5-nice-to-haves.md) | Optional growth features |
+| Phase | Doc                                                                      | Goal                                   |
+| ----- | ------------------------------------------------------------------------ | -------------------------------------- |
+| 0     | [phase-0-foundation.md](./phase-0-foundation.md)                         | Repo, API, DB, auth, shared validation |
+| 1     | [phase-1-calculator-mvp.md](./phase-1-calculator-mvp.md)                 | **MVP launch:** net income calculator  |
+| 2     | [phase-2-properties-ledger.md](./phase-2-properties-ledger.md)           | Track income & expenses                |
+| 3     | [phase-3-tax-year-close.md](./phase-3-tax-year-close.md)                 | Annual report & accountant export      |
+| 4     | [phase-4-retention-monetization.md](./phase-4-retention-monetization.md) | Reminders, tiers, accountant access    |
+| 5     | [phase-5-nice-to-haves.md](./phase-5-nice-to-haves.md)                   | Optional growth features               |
 
 ## Cross-cutting references
 

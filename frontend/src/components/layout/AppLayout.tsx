@@ -26,7 +26,7 @@ export function AppLayout() {
                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-900 text-sm font-semibold tracking-tight text-teal-50 shadow-sm">
                         RF
                      </span>
-                     <span className="text-base font-semibold tracking-tight text-stone-900">Rent-flow</span>
+                     <span className="text-base font-semibold tracking-tight text-stone-900">RentFlow</span>
                   </NavLink>
 
                   <nav className="hidden items-center gap-1 sm:flex" aria-label="Hlavná navigácia">

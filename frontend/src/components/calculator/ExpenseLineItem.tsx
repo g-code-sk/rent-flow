@@ -1,4 +1,6 @@
+import { TrashIcon } from '@/components/ui/icons/TrashIcon'
 import { Input } from '@/components/ui/Input'
+import { TextButton } from '@/components/ui/TextButton'
 import { calculateMonthlyAmount, getInputUnit, MONTHS_PER_YEAR } from '@/lib/calculator'
 import { ExpenseType, type Expense } from '@/lib/expenses'
 import { formatEur, parseAmount } from '@/lib/utils'
@@ -10,9 +12,10 @@ type ExpenseLineItemProps = {
    rentMonthly: number
    onInputChange: (value: number) => void
    onYearlyCountChange: (value: number) => void
+   onRemove?: () => void
 }
 
-export function ExpenseLineItem({ expense, value, yearlyCount, rentMonthly, onInputChange, onYearlyCountChange }: ExpenseLineItemProps) {
+export function ExpenseLineItem({ expense, value, yearlyCount, rentMonthly, onInputChange, onYearlyCountChange, onRemove }: ExpenseLineItemProps) {
    const monthlyAmount = calculateMonthlyAmount(rentMonthly, value, expense.type, yearlyCount)
    const yearlyAmount = monthlyAmount * MONTHS_PER_YEAR
    const { nameSk, descriptionSk, notesSk, inputMin, inputMax, inputStep } = expense
@@ -20,14 +23,21 @@ export function ExpenseLineItem({ expense, value, yearlyCount, rentMonthly, onIn
 
    return (
       <article className="border-b border-stone-200/80 py-3 last:border-b-0">
-         <div className="min-w-0">
-            <h3 className="text-sm font-medium leading-snug text-stone-900">{nameSk}</h3>
-            <p className="mt-0.5 text-xs leading-relaxed text-stone-500">{descriptionSk}</p>
-            {notesSk ? (
-               <p className="mt-1.5 text-[11px] leading-relaxed text-stone-400">
-                  <span className="font-medium text-stone-500">Poznámka: </span>
-                  {notesSk}
-               </p>
+         <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+               <h3 className="text-sm font-medium leading-snug text-stone-900">{nameSk}</h3>
+               <p className="mt-0.5 text-xs leading-relaxed text-stone-500">{descriptionSk}</p>
+               {notesSk ? (
+                  <p className="mt-1.5 text-[11px] leading-relaxed text-stone-400">
+                     <span className="font-medium text-stone-500">Poznámka: </span>
+                     {notesSk}
+                  </p>
+               ) : null}
+            </div>
+            {onRemove ? (
+               <TextButton color="red" icon={<TrashIcon />} onClick={onRemove}>
+                  Odstrániť
+               </TextButton>
             ) : null}
          </div>
 
@@ -39,7 +49,7 @@ export function ExpenseLineItem({ expense, value, yearlyCount, rentMonthly, onIn
                   min={inputMin}
                   max={inputMax ?? undefined}
                   step={inputStep}
-                  value={value}
+                  value={value === 0 ? '' : value}
                   onChange={e => onInputChange(parseAmount(e.target.value))}
                   aria-label={`${nameSk}, ${inputStep}`}
                />
