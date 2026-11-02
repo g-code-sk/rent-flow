@@ -48,3 +48,19 @@ The first migration already lives in `prisma/migrations/` (like Laravel files in
 3. Release/build should run `npx prisma migrate deploy` (not `migrate dev`), then `npm run build`.
 
 Do not point local Prisma at the production Render URL while developing.
+
+## API (waitlist / feedback)
+
+`npm run dev` then:
+
+```bash
+curl -X POST http://localhost:3000/api/waitlist \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"you@example.com","source":"modal","consent":true}'
+
+curl -X POST http://localhost:3000/api/feedback \
+  -H 'Content-Type: application/json' \
+  -d '{"body":"Chcem PDF export","email":"you@example.com","path":"/kalkulacka"}'
+```
+
+Success JSON is `{ "ok": true, "data": null }` (HTTP 201). Errors are `{ "ok": false, "error": { "code", "message", "details?" } }`. Hidden field `website` is a honeypot: if it is non-empty, the API returns the same success body and does not write. Duplicate waitlist emails also return success. Rate limit: 10 requests / 15 minutes / IP.

@@ -29,6 +29,7 @@ Documentation for building **RentFlow**: a SPA for **Slovak private landlords** 
 
 ## Cross-cutting references
 
+- [guidelines.md](./guidelines.md) — file naming, Express 5 errors, validation
 - [domain-slovak-rental.md](./domain-slovak-rental.md) — assumptions, categories, legal disclaimers
 - [data-model.md](./data-model.md) — entities shared by calculator and ledger
 
