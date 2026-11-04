@@ -1,0 +1,13 @@
+---
+description: Do not drop tables to change column order in Prisma migrations
+globs: prisma/**
+alwaysApply: false
+---
+
+# Prisma migrations
+
+Do not `DROP TABLE` / recreate a table only to change column order (for Prisma Studio, `ordinal_position`, or aesthetics). Postgres does not need physical column order for correctness; Prisma field order in `schema.prisma` is enough for the client.
+
+Leave existing columns where they are after `DROP COLUMN`. New columns go at the end.
+
+Use table rebuilds only when the change cannot be expressed as `ALTER TABLE` (for example a real type change Postgres cannot convert in place).
