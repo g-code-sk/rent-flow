@@ -18,14 +18,14 @@ Documentation for building **RentFlow**: a SPA for **Slovak private landlords** 
 
 ## Phases (read in order)
 
-| Phase | Doc                                                                      | Goal                                   |
-| ----- | ------------------------------------------------------------------------ | -------------------------------------- |
-| 0     | [phase-0-foundation.md](./phase-0-foundation.md)                         | Repo, API, DB, auth, shared validation |
-| 1     | [phase-1-calculator-mvp.md](./phase-1-calculator-mvp.md)                 | **MVP launch:** net income calculator  |
-| 2     | [phase-2-properties-ledger.md](./phase-2-properties-ledger.md)           | Track income & expenses                |
-| 3     | [phase-3-tax-year-close.md](./phase-3-tax-year-close.md)                 | Annual report & accountant export      |
-| 4     | [phase-4-retention-monetization.md](./phase-4-retention-monetization.md) | Reminders, tiers, accountant access    |
-| 5     | [phase-5-nice-to-haves.md](./phase-5-nice-to-haves.md)                   | Optional growth features               |
+| Phase | Doc                                                                      | Goal                                   | Status      |
+| ----- | ------------------------------------------------------------------------ | -------------------------------------- | ----------- |
+| 0     | [phase-0-foundation.md](./phase-0-foundation.md)                         | Repo, API, DB, auth, shared validation | In progress |
+| 1     | [phase-1-calculator-mvp.md](./phase-1-calculator-mvp.md)                 | **MVP launch:** net income calculator  | In progress |
+| 2     | [phase-2-properties-ledger.md](./phase-2-properties-ledger.md)           | Track income & expenses                | Not started |
+| 3     | [phase-3-tax-year-close.md](./phase-3-tax-year-close.md)                 | Annual report & accountant export      | Not started |
+| 4     | [phase-4-retention-monetization.md](./phase-4-retention-monetization.md) | Reminders, tiers, accountant access    | Not started |
+| 5     | [phase-5-nice-to-haves.md](./phase-5-nice-to-haves.md)                   | Optional growth features               | Not started |
 
 ## Cross-cutting references
 
@@ -34,6 +34,8 @@ Documentation for building **RentFlow**: a SPA for **Slovak private landlords** 
 - [data-model.md](./data-model.md) - entities shared by calculator and ledger
 
 ## Definition of “MVP shipped”
+
+**Status:** not shipped. Phase 0 and Phase 1 are in progress. There is no account, no PDF export, and no production deploy.
 
 Phase 0 + Phase 1 complete:
 
