@@ -1,7 +1,7 @@
-# Phase 0 — Foundation
+# Phase 0 - Foundation
 
 **Status:** Not started  
-**Depends on:** —  
+**Depends on:** -  
 **Blocks:** All other phases
 
 ## Goal
@@ -51,7 +51,7 @@ Requirements:
 
 - PostgreSQL 16+
 - ORM/query layer: Prisma or Drizzle (either is fine coming from Eloquent)
-- Never put tax rules only in UI — seed or migrate `TaxExpenseCategory` when Phase 1 starts
+- Never put tax rules only in UI - seed or migrate `TaxExpenseCategory` when Phase 1 starts
 
 ## Web app conventions
 

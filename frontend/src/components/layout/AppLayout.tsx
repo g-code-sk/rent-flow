@@ -7,7 +7,7 @@ const mainHome = 'mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center p
 const mainDefault = 'mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-10 sm:px-8 sm:py-12'
 
 export function AppLayout() {
-   const isCalculator = Boolean(useMatch('/kalkulacka'))
+   const isHome = Boolean(useMatch({ path: '/', end: true }))
 
    return (
       <div className="relative min-h-svh overflow-hidden bg-stone-200/70 text-stone-800">
@@ -22,7 +22,7 @@ export function AppLayout() {
          <div className="relative flex min-h-svh flex-col">
             <header className="sticky top-0 z-20 border-b border-stone-400/30 bg-stone-100/90 shadow-sm shadow-stone-900/5 backdrop-blur-md">
                <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3.5 sm:px-8">
-                  <NavLink to="/" className="flex items-center gap-3">
+                  <NavLink to="/" end className="flex items-center gap-3">
                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-900 text-sm font-semibold tracking-tight text-teal-50 shadow-sm">
                         RF
                      </span>
@@ -34,6 +34,7 @@ export function AppLayout() {
                         Domov
                      </AppNavLink>
                      <AppNavLink to="/kalkulacka">Kalkulačka</AppNavLink>
+                     <AppNavLink to="/plan">Plán</AppNavLink>
                      <AppNavLink disabled>Metodika</AppNavLink>
                   </nav>
 
@@ -41,7 +42,7 @@ export function AppLayout() {
                </div>
             </header>
 
-            <main className={isCalculator ? mainDefault : mainHome}>
+            <main className={isHome ? mainHome : mainDefault}>
                <Outlet />
             </main>
 

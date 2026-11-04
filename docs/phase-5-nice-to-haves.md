@@ -1,4 +1,4 @@
-# Phase 5 — Nice-to-haves
+# Phase 5 - Nice-to-haves
 
 **Status:** Not started  
 **Depends on:** Product traction from Phases 1–4
@@ -16,12 +16,12 @@ Only pursue items here when users or metrics justify them. **Not** part of long-
 ### Ownership & edge cases
 
 - Co-ownership split (% per owner, split income/expenses)
-- Multiple owners as separate user accounts + shared property (hard — defer)
+- Multiple owners as separate user accounts + shared property (hard - defer)
 
 ### Short-term / platforms
 
 - Airbnb / Booking import
-- Different tax treatment path — **separate product surface**, do not mix into MVP calculator defaults
+- Different tax treatment path - **separate product surface**, do not mix into MVP calculator defaults
 
 ### Advanced tax
 
@@ -33,7 +33,7 @@ Only pursue items here when users or metrics justify them. **Not** part of long-
 
 - Second and third bank CSV formats
 - Open banking (if SK market matures for your audience)
-- Export to konkrétne účtovné software (Pohoda, etc.) — needs partnership/spec
+- Export to konkrétne účtovné software (Pohoda, etc.) - needs partnership/spec
 
 ### Product
 
@@ -44,7 +44,7 @@ Only pursue items here when users or metrics justify them. **Not** part of long-
 ### Platform
 
 - OAuth (Google/Apple)
-- Team access (property manager firm) — B2B tier
+- Team access (property manager firm) - B2B tier
 
 ## Selection criteria
 

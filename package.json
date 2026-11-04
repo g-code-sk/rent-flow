@@ -1,7 +1,7 @@
 {
    "name": "RentFlow",
    "version": "1.0.0",
-   "description": "Slovak long-term rental calculator and landlord tools — API",
+   "description": "Slovak long-term rental calculator and landlord tools - API",
    "type": "module",
    "main": "dist/index.js",
    "directories": {

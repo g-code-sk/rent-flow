@@ -1,4 +1,4 @@
-# Phase 2 — Properties & ledger
+# Phase 2 - Properties & ledger
 
 **Status:** Not started  
 **Depends on:** [Phase 1](./phase-1-calculator-mvp.md)  
@@ -22,12 +22,12 @@ Replace the landlord’s spreadsheet for the tax year: record **rent received** 
 
 - [ ] Edit property label, optional address
 - [ ] Default monthly rent for quick “mark rent received” action
-- [ ] **Multi-property** (same user) — enable if users ask; otherwise defer
+- [ ] **Multi-property** (same user) - enable if users ask; otherwise defer
 
 ### 2. Income CRUD
 
 - [ ] List/filter by month/year
-- [ ] Quick action: “Prijatý nájom — tento mesiac” (default amount from property)
+- [ ] Quick action: “Prijatý nájom - tento mesiac” (default amount from property)
 - [ ] Edit date, amount, note, period
 
 ### 3. Expense CRUD
@@ -57,7 +57,7 @@ Replace the landlord’s spreadsheet for the tax year: record **rent received** 
 
 - `IncomeLine` / `ExpenseLine` with `source: LEDGER`
 - Calculator scenario can import YTD lines read-only snapshot
-- Single `TaxProfile` per property per year (user picks method; warn if switching mid-year — document behavior)
+- Single `TaxProfile` per property per year (user picks method; warn if switching mid-year - document behavior)
 
 ## API (indicative)
 

@@ -1,6 +1,6 @@
 import { ResultRow } from '@/components/calculator/ResultRow'
 import { Card } from '@/components/ui/Card'
-import { calculateSummary, HEALTH_INSURANCE_RATE, INCOME_TAX_RATE, MONTHS_PER_YEAR, TAX_ALLOWANCE, type FormValues, type FormYearlyCounts } from '@/lib/calculator'
+import { calculateSummary, INCOME_TAX_RATE, MONTHS_PER_YEAR, TAX_ALLOWANCE, type FormValues, type FormYearlyCounts } from '@/lib/calculator'
 import { expenses } from '@/lib/expenses'
 import { formatEur } from '@/lib/utils'
 
@@ -41,8 +41,7 @@ export function CalculatorSummary({ formValues, yearlyCounts, taxDetailsOpen, on
    // const netIncome = incomeBeforeTaxes - taxPayable
 
    return (
-      <aside className="lg:sticky lg:top-24">
-         <Card className="!p-5 sm:!p-6">
+      <Card className="!p-5 sm:!p-6">
             <p className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Súhrn</p>
             <p className="mt-0.5 text-xs text-stone-600">{hasRent ? 'Podľa zadaných údajov' : 'Zadajte mesačný nájom alebo načítajte ukážku.'}</p>
 
@@ -93,9 +92,6 @@ export function CalculatorSummary({ formValues, yearlyCounts, taxDetailsOpen, on
                   </div>
                </>
             ) : null}
-         </Card>
-
-         <p className="mt-3 text-[11px] leading-relaxed text-stone-500">Toto nie je daňové poradenstvo.</p>
-      </aside>
+      </Card>
    )
 }

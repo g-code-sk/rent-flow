@@ -6,11 +6,11 @@ Conventions for the Express API and React app. Product/roadmap docs live in the 
 
 Tabs only show the basename. Suffix the **role** of the file so `engagement.ts` in two folders is not ambiguous:
 
-| Role | Pattern | Example |
-| --- | --- | --- |
-| HTTP routes | `*Routes.ts` | `engagementRoutes.ts` |
-| Zod bodies | `*Schemas.ts` | `engagementSchemas.ts` |
-| Persistence / use-cases | `*Service.ts` | `waitlistService.ts` |
+| Role                    | Pattern       | Example                |
+| ----------------------- | ------------- | ---------------------- |
+| HTTP routes             | `*Routes.ts`  | `engagementRoutes.ts`  |
+| Zod bodies              | `*Schemas.ts` | `engagementSchemas.ts` |
+| Persistence / use-cases | `*Service.ts` | `waitlistService.ts`   |
 
 Keep names like `rateLimit.ts`, `validate.ts`, `honeypot.ts` when the name already is the role. Shared JSON envelope helpers live in `apiResponse.ts`.
 
@@ -33,12 +33,12 @@ This is not Laravel. Express does not map Prisma/SQL exceptions to HTTP status c
 
 ```ts
 // yes
-await createFeedback({ body, email, path })
+await createFeedback({ body, email })
 sendOk(res, null, 201)
 
-// no — same as Express 5 already does
+// no - same as Express 5 already does
 try {
-   await createFeedback({ body, email, path })
+   await createFeedback({ body, email })
    sendOk(res, null, 201)
 } catch (error) {
    next(error)
@@ -55,9 +55,9 @@ If a Prisma code should become 404/409 for clients, map it in the global handler
 
 ## HTTP vs Laravel
 
-| Laravel | Here |
-| --- | --- |
-| Form Request | `src/http/validate.ts` + schema |
-| `Model::firstOrCreate` | Prisma `upsert` with `update: {}` |
-| `Handler` + `APP_DEBUG` | `app.ts` error middleware; public body always stripped |
-| `JsonResource` / `{ data }` | `sendOk` / `sendError` (`ApiResponse<T>`) |
+| Laravel                     | Here                                                   |
+| --------------------------- | ------------------------------------------------------ |
+| Form Request                | `src/http/validate.ts` + schema                        |
+| `Model::firstOrCreate`      | Prisma `upsert` with `update: {}`                      |
+| `Handler` + `APP_DEBUG`     | `app.ts` error middleware; public body always stripped |
+| `JsonResource` / `{ data }` | `sendOk` / `sendError` (`ApiResponse<T>`)              |

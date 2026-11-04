@@ -1,12 +1,12 @@
-# Phase 1 — Calculator MVP (product launch)
+# Phase 1 - Calculator MVP (product launch)
 
 **Status:** Not started  
 **Depends on:** [Phase 0](./phase-0-foundation.md)  
-**Audience:** Private landlords, **long-term rent only** — this is the **MVP**.
+**Audience:** Private landlords, **long-term rent only** - this is the **MVP**.
 
 ## Goal
 
-Answer: *“Koľko mi reálne ostane z prenájmu po nákladoch a dani?”* — without requiring a spreadsheet.
+Answer: _“Koľko mi reálne ostane z prenájmu po nákladoch a dani?”_ - without requiring a spreadsheet.
 
 Anonymous users can calculate; registered users can **save one property scenario** and export PDF.
 
@@ -24,7 +24,7 @@ Anonymous users can calculate; registered users can **save one property scenario
 
 - [ ] Package `packages/shared` or `packages/tax-sk`: `getRules(year, version)`
 - [ ] Unit tests for flat vs actual on fixed fixtures
-- [ ] `POST /api/calculate` — accepts property assumptions + lines, returns breakdown
+- [ ] `POST /api/calculate` - accepts property assumptions + lines, returns breakdown
 - [ ] Response includes `rule_version`, `tax_year`, `method`
 
 See [domain-slovak-rental.md](./domain-slovak-rental.md).
@@ -33,13 +33,13 @@ See [domain-slovak-rental.md](./domain-slovak-rental.md).
 
 Steps (can be one page with sections):
 
-| Section | Fields |
-|---------|--------|
-| Príjem | Monthly rent (EUR), optional vacancy % |
-| Náklady (mesačné) | Správca, poistenie, energie (ak platím ja), iné |
-| Náklady (ročné → mesačný priemer) | Daň z nehnuteľností, opravy rezerva, … |
-| Úver (cashflow) | Mesačná splátka split: úrok vs istina (istina nie do dane) |
-| Daň | Rok, metóda výdavkov (prepínač + porovnanie) |
+| Section                           | Fields                                                     |
+| --------------------------------- | ---------------------------------------------------------- |
+| Príjem                            | Monthly rent (EUR), optional vacancy %                     |
+| Náklady (mesačné)                 | Správca, poistenie, energie (ak platím ja), iné            |
+| Náklady (ročné → mesačný priemer) | Daň z nehnuteľností, opravy rezerva, …                     |
+| Úver (cashflow)                   | Mesačná splátka split: úrok vs istina (istina nie do dane) |
+| Daň                               | Rok, metóda výdavkov (prepínač + porovnanie)               |
 
 Outputs:
 

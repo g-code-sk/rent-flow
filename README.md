@@ -1,6 +1,6 @@
 # RentFlow
 
-Slovak long-term rental calculator — Express API at the repo root, React app in `frontend/`.
+Slovak long-term rental calculator - Express API at the repo root, React app in `frontend/`.
 
 ## Database (Postgres + Prisma)
 
@@ -24,12 +24,12 @@ cp .env.example .env
 
 ### Commands
 
-| npm | Laravel |
-| --- | --- |
-| `npm run db:migrate` | `php artisan migrate` (create + apply) |
-| `npm run db:deploy` | `php artisan migrate --force` (apply committed files only) |
-| `npm run db:studio` | browse tables (TablePlus-style) |
-| `npm run db:reset` | `php artisan migrate:fresh` — **local only** |
+| npm                  | Laravel                                                    |
+| -------------------- | ---------------------------------------------------------- |
+| `npm run db:migrate` | `php artisan migrate` (create + apply)                     |
+| `npm run db:deploy`  | `php artisan migrate --force` (apply committed files only) |
+| `npm run db:studio`  | browse tables (TablePlus-style)                            |
+| `npm run db:reset`   | `php artisan migrate:fresh` - **local only**               |
 
 ```bash
 npm install
@@ -37,7 +37,7 @@ cp .env.example .env   # set YOUR_MAC_USER to `whoami`
 npm run db:deploy      # apply committed migrations (same as Render)
 ```
 
-The first migration already lives in `prisma/migrations/` (like Laravel files in git). Use `npm run db:migrate` later when you *change* `schema.prisma` and need a new migration.
+The first migration already lives in `prisma/migrations/` (like Laravel files in git). Use `npm run db:migrate` later when you _change_ `schema.prisma` and need a new migration.
 
 `prisma/migrations/` is committed, same as Laravel’s `database/migrations/`.
 
@@ -56,11 +56,11 @@ Do not point local Prisma at the production Render URL while developing.
 ```bash
 curl -X POST http://localhost:3000/api/waitlist \
   -H 'Content-Type: application/json' \
-  -d '{"email":"you@example.com","source":"modal","consent":true}'
+  -d '{"email":"you@example.com","consent":true}'
 
 curl -X POST http://localhost:3000/api/feedback \
   -H 'Content-Type: application/json' \
-  -d '{"body":"Chcem PDF export","email":"you@example.com","path":"/kalkulacka"}'
+  -d '{"body":"Chcem PDF export","email":"you@example.com"}'
 ```
 
 Success JSON is `{ "ok": true, "data": null }` (HTTP 201). Errors are `{ "ok": false, "error": { "code", "message", "details?" } }`. Hidden field `website` is a honeypot: if it is non-empty, the API returns the same success body and does not write. Duplicate waitlist emails also return success. Rate limit: 10 requests / 15 minutes / IP.

@@ -1,4 +1,4 @@
-# RentFlow — product roadmap (docs)
+# RentFlow - product roadmap (docs)
 
 Documentation for building **RentFlow**: a SPA for **Slovak private landlords** who **long-term rent** residential property (typical nájom bytu / domu, not short-term platforms).
 
@@ -14,7 +14,7 @@ Documentation for building **RentFlow**: a SPA for **Slovak private landlords** 
 
 **Tech stack:** Express, React, TypeScript, PostgreSQL (SPA + REST API).
 
-**Trust principle:** Display **tax rule version** and **disclaimers** on every calculation and export. Rules change annually — encode them in a versioned domain module with unit tests.
+**Trust principle:** Display **tax rule version** and **disclaimers** on every calculation and export. Rules change annually - encode them in a versioned domain module with unit tests.
 
 ## Phases (read in order)
 
@@ -29,9 +29,9 @@ Documentation for building **RentFlow**: a SPA for **Slovak private landlords** 
 
 ## Cross-cutting references
 
-- [guidelines.md](./guidelines.md) — file naming, Express 5 errors, validation
-- [domain-slovak-rental.md](./domain-slovak-rental.md) — assumptions, categories, legal disclaimers
-- [data-model.md](./data-model.md) — entities shared by calculator and ledger
+- [guidelines.md](./guidelines.md) - file naming, Express 5 errors, validation
+- [domain-slovak-rental.md](./domain-slovak-rental.md) - assumptions, categories, legal disclaimers
+- [data-model.md](./data-model.md) - entities shared by calculator and ledger
 
 ## Definition of “MVP shipped”
 

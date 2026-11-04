@@ -10,7 +10,6 @@ datasource db {
 model WaitlistEmail {
   id          String   @id @default(uuid())
   email       String   @unique
-  source      String
   consentedAt DateTime @map("consented_at")
   createdAt   DateTime @default(now()) @map("created_at")
 
@@ -21,7 +20,6 @@ model Feedback {
   id        String   @id @default(uuid())
   body      String
   email     String?
-  path      String?
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("feedback")

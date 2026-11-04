@@ -24,7 +24,7 @@ Calculator and ledger share one model so Phase 1 does not get thrown away in Pha
 - method: `FLAT` | `ACTUAL`
 - rule_version: string (e.g. `sk-rental-2025.1`)
 
-### Scenario (Phase 1 — saved calculator state)
+### Scenario (Phase 1 - saved calculator state)
 
 - id, property_id, name
 - snapshot JSON: lines + assumptions (vacancy_rate, etc.)
@@ -60,7 +60,7 @@ Calculator and ledger share one model so Phase 1 does not get thrown away in Pha
 
 - id, user_id, storage_key, filename, mime, uploaded_at
 
-## Computation (no DB — services)
+## Computation (no DB - services)
 
 ```text
 computeCashflow(lines, assumptions) → monthly + annual cash net

@@ -1,4 +1,4 @@
-# Phase 3 — Tax year close
+# Phase 3 - Tax year close
 
 **Status:** Not started  
 **Depends on:** [Phase 2](./phase-2-properties-ledger.md)
@@ -27,11 +27,11 @@ At year-end, produce a **trustworthy package** for DPFO preparation: totals, met
 ### 2. Annual report generator
 
 - [ ] Server-side report DTO: sections aligned to accountant expectations
-  - Hrubé príjmy z prenájmu
-  - Výdavky (breakdown by category)
-  - Základ dane
-  - Odhad dane (sadzba z rule module)
-  - Nákladový vs daňový “čistý” prehľad
+   - Hrubé príjmy z prenájmu
+   - Výdavky (breakdown by category)
+   - Základ dane
+   - Odhad dane (sadzba z rule module)
+   - Nákladový vs daňový “čistý” prehľad
 - [ ] Compare flat vs actual if user wants decision support (read-only second column)
 
 ### 3. Checklist engine

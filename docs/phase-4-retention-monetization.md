@@ -1,4 +1,4 @@
-# Phase 4 — Retention & monetization
+# Phase 4 - Retention & monetization
 
 **Status:** Not started  
 **Depends on:** [Phase 3](./phase-3-tax-year-close.md) (or Phase 2 if you monetize ledger earlier)
@@ -20,15 +20,15 @@ Keep landlords through the year and charge for value at **ledger + year-close** 
 
 Suggested tiers for long-term private landlords:
 
-| Tier | Includes |
-|------|----------|
-| Free | Calculator, 1 saved scenario, basic PDF |
-| Pro | Ledger, attachments, annual report export, multi-property |
-| (Later) Accountant seat | Read-only link, no edit |
+| Tier                    | Includes                                                  |
+| ----------------------- | --------------------------------------------------------- |
+| Free                    | Calculator, 1 saved scenario, basic PDF                   |
+| Pro                     | Ledger, attachments, annual report export, multi-property |
+| (Later) Accountant seat | Read-only link, no edit                                   |
 
 - [ ] `plan` on user or subscription table
 - [ ] Middleware `requirePlan('pro')` on routes
-- [ ] Stripe (or local SK provider) — subscriptions + optional one-time “tax pack” per year
+- [ ] Stripe (or local SK provider) - subscriptions + optional one-time “tax pack” per year
 
 ### 2. Email notifications
 
