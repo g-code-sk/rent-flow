@@ -19,6 +19,8 @@ Commit only when the user asks. Do not push unless they ask.
 git commit -m "$(cat <<'EOF'
 feat(frontend): short why-focused subject
 
+One sentence on what changed, so the log reads without opening the diff.
+
 EOF
 )"
 ```
@@ -28,7 +30,7 @@ EOF
 
 ## Message
 
-One conventional-commit subject, imperative, ~72 chars, **why** not a file list.
+One conventional-commit subject, imperative, ~72 chars, **why** not a file list. Then a blank line and one short sentence on what changed.
 
 | Prefix     | Use                              |
 | ---------- | -------------------------------- |
@@ -44,8 +46,16 @@ Follow recent `git log` style. Examples:
 
 ```text
 feat(api): add waitlist and feedback endpoints with a shared JSON envelope
+
+Both routes share one JSON envelope so the client can handle success and errors the same way.
+
 feat(frontend): persist calculator draft and extract useCalculator
+
+The draft survives a refresh, and the page reads its state from one hook.
+
 fix(frontend): subtract expenses from net income
+
+Net income was using income before expenses, so the summary overstated what was left.
 ```
 
-Do not add `Co-authored-by: Cursor <cursoragent@cursor.com>` or any other trailer. Body only if the subject cannot explain the why.
+Do not add `Co-authored-by: Cursor <cursoragent@cursor.com>` or any other trailer. Keep the description to one sentence.
