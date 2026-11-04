@@ -15,14 +15,22 @@ export function FeedbackForm({ onClose }: FeedbackFormProps) {
    const form = useZodForm(feedbackSchema, { body: '', email: '', website: '' })
    const { isSubmitting, isSubmitted, error, onSubmit } = useFormSubmit(form, '/api/feedback')
 
+   const email = typeof form.values.email === 'string' ? form.values.email.trim() : ''
+
    if (isSubmitted) {
       return (
          <p className="mt-4 text-sm leading-relaxed text-stone-600">
-            Ďakujeme. Prečítame si to. Odhlásiť e-mail môžete na stránke{' '}
-            <Link to="/ochrana-udajov" className="text-teal-900 underline decoration-teal-900/30 underline-offset-2 hover:decoration-teal-900" onClick={onClose}>
-               ochrany údajov
-            </Link>
-            .
+            Ďakujeme. Prečítame si to.
+            {email ? (
+               <>
+                  {' '}
+                  Odhlásiť e-mail môžete na stránke{' '}
+                  <Link to="/ochrana-udajov" className="text-teal-900 underline decoration-teal-900/30 underline-offset-2 hover:decoration-teal-900" onClick={onClose}>
+                     ochrany údajov
+                  </Link>
+                  .
+               </>
+            ) : null}
          </p>
       )
    }
