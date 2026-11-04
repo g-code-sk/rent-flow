@@ -9,14 +9,14 @@ import { subscribeWaitlist } from '../services/waitlistService.js'
 
 export const engagementRouter = Router()
 
-engagementRouter.post('/waitlist', rateLimit, validate(waitlistSchema), rejectHoneypot, async (req, res) => {
+engagementRouter.post('/waitlist', rateLimit, rejectHoneypot, validate(waitlistSchema), async (req, res) => {
    const { email } = req.body as WaitlistBody
 
    await subscribeWaitlist(email)
    sendOk(res, null, 201)
 })
 
-engagementRouter.post('/feedback', rateLimit, validate(feedbackSchema), rejectHoneypot, async (req, res) => {
+engagementRouter.post('/feedback', rateLimit, rejectHoneypot, validate(feedbackSchema), async (req, res) => {
    const { body, email } = req.body as FeedbackBody
 
    await createFeedback({ body, email })

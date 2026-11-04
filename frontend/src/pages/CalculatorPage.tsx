@@ -98,10 +98,12 @@ export function CalculatorPage() {
                </Card>
             </form>
 
-            <aside className="grid gap-4 lg:sticky lg:top-24 lg:gap-6">
+            <aside className="grid gap-4 lg:gap-6">
                <NewsSignUpCard />
-               <CalculatorSummary formValues={formValues} yearlyCounts={formYearlyCounts} taxDetailsOpen={taxDetailsOpen} onTaxDetailsOpenChange={setTaxDetailsOpen} />
-               <p className="text-[11px] leading-relaxed text-stone-500">Toto nie je daňové poradenstvo.</p>
+               <div className="grid gap-4 lg:sticky lg:top-24 lg:gap-6">
+                  <CalculatorSummary formValues={formValues} yearlyCounts={formYearlyCounts} taxDetailsOpen={taxDetailsOpen} onTaxDetailsOpenChange={setTaxDetailsOpen} />
+                  <p className="text-[11px] leading-relaxed text-stone-500">Toto nie je daňové poradenstvo.</p>
+               </div>
             </aside>
          </div>
       </div>
