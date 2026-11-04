@@ -1,4 +1,5 @@
 import { CalculatorSummary } from '@/components/calculator/CalculatorSummary'
+import { NewsSignUpCard } from '@/components/engagement/NewsSignUpCard'
 import { ExpenseCatalogRow } from '@/components/calculator/ExpenseCatalogRow'
 import { ExpenseLineItem } from '@/components/calculator/ExpenseLineItem'
 import { NumberField } from '@/components/calculator/NumberField'
@@ -29,7 +30,7 @@ export function CalculatorPage() {
       <div className="w-full">
          <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:text-left">
             <h1 className="text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">Kalkulačka príjmu</h1>
-            <p className="mt-3 text-stone-600">Zadajte očakávaný mesačný nájom a upravte výdavky podľa katalógu — položky pribúdajú postupne.</p>
+            <p className="mt-3 text-stone-600">Zadajte očakávaný mesačný nájom a upravte výdavky podľa katalógu - položky pribúdajú postupne.</p>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 lg:justify-start">
                <TextButton icon={<SparklesIcon />} onClick={loadDemo}>
                   Načítať ukážku
@@ -40,7 +41,7 @@ export function CalculatorPage() {
                   </TextButton>
                ) : null}
             </div>
-            <p className="mt-1.5 text-xs text-stone-500">Ukážkové čísla — ilustrácia</p>
+            <p className="mt-1.5 text-xs text-stone-500">Ukážkové čísla - ilustrácia</p>
          </div>
 
          <div className="mt-10 grid gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-6">
@@ -97,7 +98,13 @@ export function CalculatorPage() {
                </Card>
             </form>
 
-            <CalculatorSummary formValues={formValues} yearlyCounts={formYearlyCounts} taxDetailsOpen={taxDetailsOpen} onTaxDetailsOpenChange={setTaxDetailsOpen} />
+            <aside className="grid gap-4 lg:gap-6">
+               <NewsSignUpCard />
+               <div className="grid gap-4 lg:sticky lg:top-24 lg:gap-6">
+                  <CalculatorSummary formValues={formValues} yearlyCounts={formYearlyCounts} taxDetailsOpen={taxDetailsOpen} onTaxDetailsOpenChange={setTaxDetailsOpen} />
+                  <p className="text-[11px] leading-relaxed text-stone-500">Toto nie je daňové poradenstvo.</p>
+               </div>
+            </aside>
          </div>
       </div>
    )

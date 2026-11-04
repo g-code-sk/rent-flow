@@ -96,7 +96,7 @@ export function saveCalculatorDraft(state: CalculatorDraftState) {
       }
       localStorage.setItem(CALCULATOR_DRAFT_KEY, JSON.stringify(payload))
    } catch {
-      // Private mode or quota — draft is best-effort.
+      // Private mode or quota - draft is best-effort.
    }
 }
 

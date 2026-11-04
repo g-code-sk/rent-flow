@@ -1,12 +1,12 @@
-# Phase 1 — Calculator MVP (product launch)
+# Phase 1 - Calculator MVP (product launch)
 
-**Status:** Not started  
+**Status:** In progress  
 **Depends on:** [Phase 0](./phase-0-foundation.md)  
-**Audience:** Private landlords, **long-term rent only** — this is the **MVP**.
+**Audience:** Private landlords, **long-term rent only** - this is the **MVP**.
 
 ## Goal
 
-Answer: *“Koľko mi reálne ostane z prenájmu po nákladoch a dani?”* — without requiring a spreadsheet.
+Answer: _“Koľko mi reálne ostane z prenájmu po nákladoch a dani?”_ - without requiring a spreadsheet.
 
 Anonymous users can calculate; registered users can **save one property scenario** and export PDF.
 
@@ -24,7 +24,7 @@ Anonymous users can calculate; registered users can **save one property scenario
 
 - [ ] Package `packages/shared` or `packages/tax-sk`: `getRules(year, version)`
 - [ ] Unit tests for flat vs actual on fixed fixtures
-- [ ] `POST /api/calculate` — accepts property assumptions + lines, returns breakdown
+- [ ] `POST /api/calculate` - accepts property assumptions + lines, returns breakdown
 - [ ] Response includes `rule_version`, `tax_year`, `method`
 
 See [domain-slovak-rental.md](./domain-slovak-rental.md).
@@ -33,21 +33,23 @@ See [domain-slovak-rental.md](./domain-slovak-rental.md).
 
 Steps (can be one page with sections):
 
-| Section | Fields |
-|---------|--------|
-| Príjem | Monthly rent (EUR), optional vacancy % |
-| Náklady (mesačné) | Správca, poistenie, energie (ak platím ja), iné |
-| Náklady (ročné → mesačný priemer) | Daň z nehnuteľností, opravy rezerva, … |
-| Úver (cashflow) | Mesačná splátka split: úrok vs istina (istina nie do dane) |
-| Daň | Rok, metóda výdavkov (prepínač + porovnanie) |
+| Section                           | Fields                                                     |
+| --------------------------------- | ---------------------------------------------------------- |
+| Príjem                            | Monthly rent (EUR), optional vacancy %                     |
+| Náklady (mesačné)                 | Správca, poistenie, energie (ak platím ja), iné            |
+| Náklady (ročné → mesačný priemer) | Daň z nehnuteľností, opravy rezerva, …                     |
+| Úver (cashflow)                   | Mesačná splátka split: úrok vs istina (istina nie do dane) |
+| Daň                               | Rok, metóda výdavkov (prepínač + porovnanie)               |
 
 Outputs:
 
-- Mesačný / ročný hrubý príjem (adjusted for vacancy)
-- Celkové náklady (cash)
-- Základ dane + odhad dane (per method)
-- **Čistý zisk po dani** (highlight)
-- Side-by-side ak obe metódy
+- [x] Mesačný / ročný príjem a celkové náklady (cash) from the expense catalog
+- [x] Základ dane + odhad dane for actual expenses (client-side, fixed 19 %)
+- [x] **Čistý zisk po dani** (highlight)
+- [x] Instant recalc as inputs change
+- [ ] Mesačný / ročný hrubý príjem adjusted for a vacancy assumption (vacancy exists only as a catalog reserve line)
+- [ ] Základ dane + odhad dane per method, from a versioned rule module
+- [ ] Side-by-side ak obe metódy
 
 ### 3. Sensitivity / “what-if”
 
@@ -56,19 +58,21 @@ Outputs:
 
 ### 4. Auth + save scenario
 
+- [x] Browser draft of the calculator (local, short-lived, not an account)
 - [ ] One `Property` auto-created or explicit “Moja nehnuteľnosť”
 - [ ] CRUD `Scenario` (name + JSON snapshot)
 - [ ] Load scenario back into wizard
 
 ### 5. Export
 
+- [x] Short disclaimer on the calculator result
 - [ ] Print stylesheet or server PDF (pick one for MVP)
 - [ ] Disclaimer + rule version + date on export
 
 ### 6. Public marketing shell (minimal)
 
-- [ ] Landing: value prop + “Spočítajte zdarma” → calculator
-- [ ] `/metodika` static page: assumptions, disclaimer, link to domain doc summary
+- [x] Landing: value prop + link into the calculator
+- [ ] `/metodika` static page: assumptions, disclaimer, link to domain doc summary (nav item is present and disabled)
 
 ## UX notes (long-term rent)
 
@@ -93,11 +97,11 @@ Outputs:
 ## Exit criteria (MVP shipped)
 
 - [ ] Live deploy (staging minimum)
-- [ ] Anonymous calculate works
+- [x] Anonymous calculate works (in the browser; no `POST /api/calculate` yet)
 - [ ] Register, save, reload scenario
 - [ ] Export with disclaimer
 - [ ] Tax tests green in CI
-- [ ] Slovak UI on all calculator strings
+- [x] Slovak UI on all calculator strings
 
 ## Estimated effort
 

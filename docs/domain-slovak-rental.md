@@ -1,4 +1,4 @@
-# Domain — Slovak private long-term rental
+# Domain - Slovak private long-term rental
 
 Living document. **Validate with a daňový poradca** before treating outputs as authoritative. Link official sources in code comments where rules are implemented.
 
@@ -18,13 +18,13 @@ Living document. **Validate with a daňový poradca** before treating outputs as
 
 Implement as **pure functions** + **versioned rules** (e.g. `sk-rental-2025.1`):
 
-| Concept | Product behavior |
-|---------|------------------|
-| Flat-rate expenses (paušálne výdavky) | Toggle; apply percentage/caps from rule module for the selected year |
-| Actual expenses (skutočné výdavky) | Sum eligible expense lines by category |
-| Income | Rent received (gross); handle vacancy as assumption in calculator, actuals in ledger |
-| Non-deductible costs | Track for cashflow but exclude from tax base (e.g. principal loan repayments) |
-| Improvements vs repairs | Flag large items; user/accountant resolves — do not auto-deduct ambiguous items |
+| Concept                               | Product behavior                                                                     |
+| ------------------------------------- | ------------------------------------------------------------------------------------ |
+| Flat-rate expenses (paušálne výdavky) | Toggle; apply percentage/caps from rule module for the selected year                 |
+| Actual expenses (skutočné výdavky)    | Sum eligible expense lines by category                                               |
+| Income                                | Rent received (gross); handle vacancy as assumption in calculator, actuals in ledger |
+| Non-deductible costs                  | Track for cashflow but exclude from tax base (e.g. principal loan repayments)        |
+| Improvements vs repairs               | Flag large items; user/accountant resolves - do not auto-deduct ambiguous items      |
 
 ### Expense categories (v1 taxonomy)
 

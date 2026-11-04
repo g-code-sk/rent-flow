@@ -1,7 +1,7 @@
-# Phase 0 — Foundation
+# Phase 0 - Foundation
 
-**Status:** Not started  
-**Depends on:** —  
+**Status:** In progress  
+**Depends on:** -  
 **Blocks:** All other phases
 
 ## Goal
@@ -10,15 +10,21 @@ A boring, maintainable full-stack baseline so feature work in Phase 1 is mostly 
 
 ## Outcomes
 
-- [ ] Repository layout: API at repo root (`src/`), frontend in `frontend/` (later), shared code in `packages/shared` if needed
-- [ ] TypeScript strict in web + api + shared
-- [ ] PostgreSQL running locally (Docker Compose)
-- [ ] Migrations tool chosen and first migration (users table)
-- [ ] Express app: health check, error handler, request logging
-- [ ] React SPA: Vite, router, layout shell, SK strings placeholder
-- [ ] Shared Zod schemas for auth + one sample DTO
+- [x] Repository layout: API at repo root (`src/`), frontend in `frontend/`
+- [ ] Shared code in `packages/shared` (not used)
+- [x] TypeScript in the API (`strict`) and the frontend
+- [ ] TypeScript `strict` in the frontend, and a shared package
+- [x] PostgreSQL running locally (no Docker; see root README)
+- [ ] Docker Compose
+- [x] Migrations tool chosen and first migration (waitlist and feedback)
+- [ ] Users table
+- [x] Express app: health check, error handler, consistent error shape
+- [ ] Request logging
+- [x] React SPA: Vite, router, layout shell, Slovak UI
+- [x] Zod schemas on the API (engagement)
+- [ ] Shared Zod schemas for auth
 - [ ] CI: install, lint, typecheck, test (empty or smoke)
-- [ ] Env documented (`.env.example`)
+- [x] Env documented (`.env.example`)
 
 ## Suggested structure
 
@@ -51,7 +57,7 @@ Requirements:
 
 - PostgreSQL 16+
 - ORM/query layer: Prisma or Drizzle (either is fine coming from Eloquent)
-- Never put tax rules only in UI — seed or migrate `TaxExpenseCategory` when Phase 1 starts
+- Never put tax rules only in UI - seed or migrate `TaxExpenseCategory` when Phase 1 starts
 
 ## Web app conventions
 
