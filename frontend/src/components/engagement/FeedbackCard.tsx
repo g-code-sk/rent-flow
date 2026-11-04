@@ -26,7 +26,7 @@ export function FeedbackCard() {
             </div>
          </div>
          <Dialog open={feedbackOpen} title="Poslať nápad" onClose={() => setFeedbackOpen(false)}>
-            <FeedbackForm />
+            <FeedbackForm onClose={() => setFeedbackOpen(false)} />
          </Dialog>
          <Dialog open={signupOpen} title="Novinky e-mailom" onClose={() => setSignupOpen(false)}>
             <NewsSignUpForm onClose={() => setSignupOpen(false)} />

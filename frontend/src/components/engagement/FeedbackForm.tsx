@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { feedbackSchema } from '@schemas/engagementSchemas'
 import { Button } from '@/components/ui/Button'
 import { FormProvider } from '@/components/ui/Form'
@@ -6,12 +7,24 @@ import { TextArea } from '@/components/ui/TextArea'
 import { useFormSubmit } from '@/hooks/useFormSubmit'
 import { useZodForm } from '@/hooks/useZodForm'
 
-export function FeedbackForm() {
+type FeedbackFormProps = {
+   onClose: () => void
+}
+
+export function FeedbackForm({ onClose }: FeedbackFormProps) {
    const form = useZodForm(feedbackSchema, { body: '', email: '', website: '' })
    const { isSubmitting, isSubmitted, error, onSubmit } = useFormSubmit(form, '/api/feedback')
 
    if (isSubmitted) {
-      return <p className="mt-4 text-sm leading-relaxed text-stone-600">Ďakujeme. Prečítame si to.</p>
+      return (
+         <p className="mt-4 text-sm leading-relaxed text-stone-600">
+            Ďakujeme. Prečítame si to. Odhlásiť e-mail môžete na stránke{' '}
+            <Link to="/ochrana-udajov" className="text-teal-900 underline decoration-teal-900/30 underline-offset-2 hover:decoration-teal-900" onClick={onClose}>
+               ochrany údajov
+            </Link>
+            .
+         </p>
+      )
    }
 
    return (
