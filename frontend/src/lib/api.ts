@@ -30,12 +30,30 @@ export async function postJson<T>(url: string, body: unknown): Promise<ApiRespon
    return { ok: false, error: { code: 'internal_error', message: 'Niečo sa pokazilo.' } }
 }
 
-export function getFieldErrorMessage(details: unknown, field: string): string | undefined {
+function fieldErrorLists(details: unknown): Record<string, string[] | undefined> | undefined {
    if (typeof details !== 'object' || details === null || !('fieldErrors' in details)) {
       return undefined
    }
 
-   const fieldErrors = (details as { fieldErrors?: Record<string, string[] | undefined> }).fieldErrors
-   const messages = fieldErrors?.[field]
-   return messages?.[0]
+   return (details as { fieldErrors?: Record<string, string[] | undefined> }).fieldErrors
+}
+
+export function getFieldErrorMessage(details: unknown, field: string): string | undefined {
+   return fieldErrorLists(details)?.[field]?.[0]
+}
+
+export function readFieldErrors(details: unknown): Record<string, string> {
+   const fieldErrors = fieldErrorLists(details)
+   if (!fieldErrors) {
+      return {}
+   }
+
+   const messages: Record<string, string> = {}
+   for (const [field, fieldMessages] of Object.entries(fieldErrors)) {
+      const message = fieldMessages?.[0]
+      if (message) {
+         messages[field] = message
+      }
+   }
+   return messages
 }

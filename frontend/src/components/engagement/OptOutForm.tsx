@@ -1,60 +1,37 @@
-import { useState, type FormEvent } from 'react'
+import { optOutSchema } from '@schemas/engagementSchemas'
 import { Button } from '@/components/ui/Button'
+import { FormProvider } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
-import { getFieldErrorMessage, postJson } from '@/lib/api'
+import { useFormSubmit } from '@/hooks/useFormSubmit'
+import { useZodForm } from '@/hooks/useZodForm'
 
 export function OptOutForm() {
-   const [email, setEmail] = useState('')
-   const [website, setWebsite] = useState('')
-   const [isSubmitting, setIsSubmitting] = useState(false)
-   const [isSubmitted, setIsSubmitted] = useState(false)
-   const [error, setError] = useState<string | undefined>()
-   const [emailError, setEmailError] = useState<string | undefined>()
-
-   async function onSubmit(event: FormEvent<HTMLFormElement>) {
-      event.preventDefault()
-      setIsSubmitting(true)
-      setError(undefined)
-      setEmailError(undefined)
-
-      const result = await postJson<null>('/api/opt-out', {
-         email,
-         website,
-      })
-
-      setIsSubmitting(false)
-
-      if (result.ok) {
-         setIsSubmitted(true)
-         return
-      }
-
-      setEmailError(getFieldErrorMessage(result.error.details, 'email'))
-      setError(result.error.message)
-   }
+   const form = useZodForm(optOutSchema, { email: '', website: '' })
+   const { isSubmitting, isSubmitted, error, onSubmit } = useFormSubmit(form, '/api/opt-out')
 
    if (isSubmitted) {
       return <p className="mt-4 text-sm leading-relaxed text-stone-600">E-mail sme odstránili zo zoznamu noviniek a z nápadov. Text nápadu ostáva.</p>
    }
 
    return (
-      <form className="mt-4 grid gap-4" onSubmit={onSubmit}>
-         <label className="block text-sm font-medium text-stone-700">
-            E-mail
-            <Input variant="field" type="email" name="email" autoComplete="email" value={email} onChange={event => setEmail(event.target.value)} />
-            {emailError ? <p className="mt-1 text-xs text-rose-800">{emailError}</p> : null}
-         </label>
+      <FormProvider form={form}>
+         <form className="mt-4 grid gap-4" onSubmit={onSubmit}>
+            <label className="block text-sm font-medium text-stone-700">
+               E-mail
+               <Input variant="field" type="email" name="email" autoComplete="email" />
+            </label>
 
-         <label className="sr-only">
-            Web
-            <input type="text" name="website" tabIndex={-1} autoComplete="off" value={website} onChange={event => setWebsite(event.target.value)} />
-         </label>
+            <label className="sr-only">
+               Web
+               <Input type="text" name="website" tabIndex={-1} autoComplete="off" />
+            </label>
 
-         {error ? <p className="text-sm text-rose-800">{error}</p> : null}
+            {error ? <p className="text-sm text-rose-800">{error}</p> : null}
 
-         <Button type="submit" disabled={isSubmitting || !email.trim()}>
-            {isSubmitting ? 'Odosielam…' : 'Odhlásiť e-mail'}
-         </Button>
-      </form>
+            <Button type="submit" disabled={isSubmitting || !form.isValid}>
+               {isSubmitting ? 'Odosielam…' : 'Odhlásiť e-mail'}
+            </Button>
+         </form>
+      </FormProvider>
    )
 }
