@@ -8,6 +8,11 @@ export const waitlistSchema = z.object({
    website: honeypot,
 });
 
+export const optOutSchema = z.object({
+   email: z.string().trim().email(),
+   website: honeypot,
+});
+
 const optionalEmail = z
    .string()
    .trim()
@@ -23,3 +28,4 @@ export const feedbackSchema = z.object({
 
 export type WaitlistBody = z.infer<typeof waitlistSchema>;
 export type FeedbackBody = z.infer<typeof feedbackSchema>;
+export type OptOutBody = z.infer<typeof optOutSchema>;

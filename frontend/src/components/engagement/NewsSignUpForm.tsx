@@ -41,14 +41,22 @@ export function NewsSignUpForm({ onClose }: NewsSignUpFormProps) {
    }
 
    if (isSubmitted) {
-      return <p className="mt-4 text-sm leading-relaxed text-stone-600">E-mail máme. Ozveme sa, keď pribudne niečo nové — bez spamu.</p>
+      return (
+         <p className="mt-4 text-sm leading-relaxed text-stone-600">
+            E-mail máme. Ozveme sa, keď pribudne niečo nové - bez spamu. Odhlásiť sa môžete na stránke{' '}
+            <Link to="/ochrana-udajov" className="text-teal-900 underline decoration-teal-900/30 underline-offset-2 hover:decoration-teal-900" onClick={onClose}>
+               ochrany údajov
+            </Link>
+            .
+         </p>
+      )
    }
 
    return (
       <form className="mt-4 grid gap-4" onSubmit={onSubmit}>
          <label className="block text-sm font-medium text-stone-700">
             E-mail
-            <Input variant="field" type="email" name="email" autoComplete="email" required value={email} onChange={event => setEmail(event.target.value)} />
+            <Input variant="field" type="email" name="email" autoComplete="email" value={email} onChange={event => setEmail(event.target.value)} />
             {emailError ? <p className="mt-1 text-xs text-rose-800">{emailError}</p> : null}
          </label>
 
@@ -63,7 +71,6 @@ export function NewsSignUpForm({ onClose }: NewsSignUpFormProps) {
                className="mt-0.5 rounded border-stone-300 text-teal-900 focus:ring-teal-900/20"
                checked={consent}
                onChange={event => setConsent(event.target.checked)}
-               required
             />
             <span>
                Súhlasím so zasielaním e-mailov o nových funkciách.{' '}
@@ -75,7 +82,7 @@ export function NewsSignUpForm({ onClose }: NewsSignUpFormProps) {
 
          {error ? <p className="text-sm text-rose-800">{error}</p> : null}
 
-         <Button type="submit" disabled={isSubmitting}>
+         <Button type="submit" disabled={isSubmitting || !email.trim() || !consent}>
             {isSubmitting ? 'Odosielam…' : 'Novinky e-mailom'}
          </Button>
       </form>

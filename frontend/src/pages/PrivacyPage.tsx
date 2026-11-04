@@ -1,3 +1,5 @@
+import { OptOutForm } from '@/components/engagement/OptOutForm'
+
 export function PrivacyPage() {
    return (
       <div className="mx-auto w-full max-w-2xl">
@@ -90,11 +92,11 @@ export function PrivacyPage() {
                   <li>na obmedzenie spracúvania,</li>
                   <li>na prenosnosť e-mailu z prihlásenia na novinky,</li>
                   <li>namietať proti spracúvaniu nápadov na základe oprávneného záujmu,</li>
-                  <li>kedykoľvek odvolať súhlas s novinkami, bez vplyvu na zákonnosť spracúvania pred odvolaním.</li>
+                  <li>kedykoľvek odvolať súhlas s novinkami, bez vplyvu na zákonnosť spracúvania pred odvolaním. Na to slúži formulár nižšie.</li>
                </ul>
                <p className="mt-3">
-                  V aplikácii zatiaľ nie je odhlasovací odkaz. Súhlas odvoláte písomnou žiadosťou na adresu sídla alebo emailom. Po odvolaní e-mail zo zoznamu noviniek
-                  vymažeme.
+                  Po odhlásení e-mail zo zoznamu noviniek vymažeme a z nápadov ho odstránime. Text nápadu ostáva. Ďalšie žiadosti o prístup, opravu alebo výmaz pošlite
+                  písomne na adresu sídla alebo emailom.
                </p>
                <p className="mt-2">
                   Máte právo podať sťažnosť Úradu na ochranu osobných údajov Slovenskej republiky, Hraničná 12, 820 07 Bratislava 27,{' '}
@@ -109,6 +111,15 @@ export function PrivacyPage() {
                <p className="mt-2">
                   Neprijímame rozhodnutia založené výlučne na automatizovanom spracúvaní, ktoré by mali právne účinky alebo vás obdobne významne ovplyvnili.
                </p>
+            </section>
+
+            <section>
+               <h2 className="text-base font-semibold tracking-tight text-stone-900">Odhlásenie</h2>
+               <p className="mt-2">
+                  Zadajte e-mail, ktorým ste sa prihlásili na novinky alebo ste ho uviedli pri nápade. Zo zoznamu noviniek ho vymažeme a pri nápadoch ho odstránime. Text
+                  nápadu ostáva.
+               </p>
+               <OptOutForm />
             </section>
 
             <section>

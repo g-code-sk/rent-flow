@@ -42,7 +42,6 @@ export function FeedbackForm() {
             Čo by ste použili ako prvé?
             <textarea
                name="body"
-               required
                rows={4}
                maxLength={5000}
                value={body}
@@ -63,7 +62,7 @@ export function FeedbackForm() {
 
          {error ? <p className="text-sm text-rose-800">{error}</p> : null}
 
-         <Button type="submit" disabled={isSubmitting}>
+         <Button type="submit" disabled={isSubmitting || !body.trim()}>
             {isSubmitting ? 'Odosielam…' : 'Poslať nápad'}
          </Button>
       </form>

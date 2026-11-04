@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from 'express'
 import { sendError } from './apiResponse.js'
 
 const WINDOW_MS = 15 * 60 * 1000
-const MAX_REQUESTS = 10
+const MAX_REQUESTS = 3
 
 const hits = new Map<string, { count: number; resetAt: number }>()
 
