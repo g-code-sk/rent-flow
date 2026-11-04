@@ -22,6 +22,7 @@ export function CalculatorSummary({ formValues, yearlyCounts, taxDetailsOpen, on
    const expensesDeductibleYearly =
       expenses.filter(expense => summary[expense.id] > 0 && expense.taxDeductible).reduce((acc, expense) => acc + summary[expense.id], 0) * MONTHS_PER_YEAR
 
+   const incomeBeforeTaxes = incomeYearly - expensesYearly
    const taxableIncomeYearly = incomeYearly - TAX_ALLOWANCE
 
    // Kratené výdavky
@@ -30,15 +31,7 @@ export function CalculatorSummary({ formValues, yearlyCounts, taxDetailsOpen, on
    // Základ dane
    const taxableIncome = taxableIncomeYearly - proportionatelyReducedExpenses
    const taxPayable = taxableIncome * INCOME_TAX_RATE
-   const netIncome = incomeYearly - taxPayable
-
-   // const incomeBeforeTaxes = rentYearly - expensesYearly
-   // const incomeTaxable = Math.max(0, rentYearly - TAX_ALLOWANCE - expensesDeductibleYearly)
-   // const apportionedExpenses = incomeTaxable / incomeBeforeTaxes * expensesDeductibleYearly
-   // const taxPayable = incomeTaxable * INCOME_TAX_RATE
-   // const healthInsurancePayable = incomeTaxable * HEALTH_INSURANCE_RATE
-   // const netIncome = incomeBeforeTaxes - taxPayable - healthInsurancePayable
-   // const netIncome = incomeBeforeTaxes - taxPayable
+   const netIncome = incomeBeforeTaxes - taxPayable
 
    return (
       <Card className="!p-5 sm:!p-6">
@@ -67,7 +60,11 @@ export function CalculatorSummary({ formValues, yearlyCounts, taxDetailsOpen, on
                      <p className="text-[11px] font-medium uppercase tracking-wider text-stone-400">Po výdavkoch</p>
                      <dl className="space-y-0">
                         <ResultRow label="Výdavky spolu" value={`− ${formatEur(expensesMonthly)}`} secondary={`${formatEur(expensesYearly)} / rok`} muted />
-                        <ResultRow label="Príjem pred daňou" value={formatEur(incomeYearly / MONTHS_PER_YEAR)} secondary={`${formatEur(incomeYearly)} / rok`} />
+                        <ResultRow
+                           label="Príjem pred daňou"
+                           value={formatEur(incomeBeforeTaxes / MONTHS_PER_YEAR)}
+                           secondary={`${formatEur(incomeBeforeTaxes)} / rok`}
+                        />
                      </dl>
 
                      <details
@@ -77,7 +74,7 @@ export function CalculatorSummary({ formValues, yearlyCounts, taxDetailsOpen, on
                      >
                         <summary className="cursor-pointer text-[11px] font-medium uppercase tracking-wider text-stone-400">Daň a odvody</summary>
                         <dl className="mt-2.5 space-y-0">
-                           <ResultRow label="Základ dane" value={formatEur(taxableIncomeYearly)} muted />
+                           <ResultRow label="Základ dane" value={formatEur(taxableIncome)} muted />
                            <ResultRow label="Daň z príjmu (19 %)" value={`− ${formatEur(taxPayable)}`} muted />
                         </dl>
                      </details>
