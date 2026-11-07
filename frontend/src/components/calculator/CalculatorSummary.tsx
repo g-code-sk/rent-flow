@@ -23,13 +23,11 @@ export function CalculatorSummary({ formValues, yearlyCounts, taxDetailsOpen, on
       expenses.filter(expense => summary[expense.id] > 0 && expense.taxDeductible).reduce((acc, expense) => acc + summary[expense.id], 0) * MONTHS_PER_YEAR
 
    const incomeBeforeTaxes = incomeYearly - expensesYearly
-   const taxableIncomeYearly = incomeYearly - TAX_ALLOWANCE
-
-   // Kratené výdavky
-   const proportionatelyReducedExpenses = (taxableIncomeYearly / incomeYearly) * expensesDeductibleYearly
-
-   // Základ dane
-   const taxableIncome = taxableIncomeYearly - proportionatelyReducedExpenses
+   const allowance = Math.min(TAX_ALLOWANCE, incomeYearly)
+   const taxableIncomeYearly = incomeYearly - allowance
+   const expenseRatio = incomeYearly > 0 ? taxableIncomeYearly / incomeYearly : 0
+   const proportionatelyReducedExpenses = expenseRatio * expensesDeductibleYearly
+   const taxableIncome = Math.max(0, taxableIncomeYearly - proportionatelyReducedExpenses)
    const taxPayable = taxableIncome * INCOME_TAX_RATE
    const netIncome = incomeBeforeTaxes - taxPayable
 
