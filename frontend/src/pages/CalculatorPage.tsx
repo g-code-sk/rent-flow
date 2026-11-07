@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { CalculatorSummary } from '@/components/calculator/CalculatorSummary'
 import { NewsSignUpCard } from '@/components/engagement/NewsSignUpCard'
 import { ExpenseCatalogRow } from '@/components/calculator/ExpenseCatalogRow'
@@ -102,7 +103,12 @@ export function CalculatorPage() {
                <NewsSignUpCard />
                <div className="grid gap-4 lg:sticky lg:top-24 lg:gap-6">
                   <CalculatorSummary formValues={formValues} yearlyCounts={formYearlyCounts} taxDetailsOpen={taxDetailsOpen} onTaxDetailsOpenChange={setTaxDetailsOpen} />
-                  <p className="text-[11px] leading-relaxed text-stone-500">Toto nie je daňové poradenstvo.</p>
+                  <p className="text-[11px] leading-relaxed text-stone-500">
+                     Toto nie je daňové poradenstvo.{' '}
+                     <Link to="/metodika" className="text-teal-900 underline decoration-teal-900/30 underline-offset-2 hover:decoration-teal-900">
+                        Metodika
+                     </Link>
+                  </p>
                </div>
             </aside>
          </div>

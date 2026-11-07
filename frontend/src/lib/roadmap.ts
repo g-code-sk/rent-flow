@@ -59,7 +59,7 @@ export const roadmapPhases: RoadmapPhase[] = [
          {
             title: 'Metodika',
             detail: 'Predpoklady výpočtu a odkiaľ berieme daňové pravidlá.',
-            done: false,
+            done: true,
          },
       ],
    },
