@@ -1,7 +1,15 @@
 import { useApiHealth } from '@/hooks/useApiHealth'
 
+function isLocalHost() {
+   const host = window.location.hostname
+   return host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || host === '::1'
+}
+
 export function AppApiStatus() {
-   const apiStatus = useApiHealth()
+   const isLocal = isLocalHost()
+   const apiStatus = useApiHealth(isLocal)
+
+   if (!isLocal) return null
 
    return (
       <div className="flex items-center gap-2 rounded-full border border-stone-300/80 bg-white/60 px-3 py-1.5 text-xs text-stone-600" aria-live="polite">

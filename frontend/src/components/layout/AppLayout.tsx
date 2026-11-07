@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useMatch } from 'react-router-dom'
 import { AppApiStatus } from '@/components/layout/AppApiStatus'
 import { AppFooter } from '@/components/layout/AppFooter'
-import { AppNavLink } from '@/components/layout/AppNavLink'
+import { AppMainNav } from '@/components/layout/AppMainNav'
 
 const mainHome = 'mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 py-12 sm:px-8 sm:py-16 lg:py-20'
 const mainDefault = 'mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-10 sm:px-8 sm:py-12'
@@ -29,14 +29,7 @@ export function AppLayout() {
                      <span className="text-base font-semibold tracking-tight text-stone-900">Ostane z nájmu</span>
                   </NavLink>
 
-                  <nav className="hidden items-center gap-1 sm:flex" aria-label="Hlavná navigácia">
-                     <AppNavLink to="/" end>
-                        Domov
-                     </AppNavLink>
-                     <AppNavLink to="/kalkulacka">Kalkulačka</AppNavLink>
-                     <AppNavLink to="/plan">Plán</AppNavLink>
-                     <AppNavLink disabled>Metodika</AppNavLink>
-                  </nav>
+                  <AppMainNav />
 
                   <AppApiStatus />
                </div>
