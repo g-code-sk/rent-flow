@@ -19,15 +19,13 @@ export function PrivacyPage() {
                   Prevádzkovateľom osobných údajov je <span className="font-medium text-stone-800">G-Code s. r. o.</span> so sídlom:
                </p>
                <ul className="list-none pl-5 py-2">
-                  <li>IČO: 55137857</li>
-                  <li>DIČ: 2121890496</li>
                   <li>Kráľová nad Váhom 369</li>
                   <li>925 91 Kráľová nad Váhom</li>
-                  <li>Email: gabriel.vadkerti.dev@gmail.com</li>
+                  <li>IČO: 55137857</li>
+                  <li>DIČ: 2121890496</li>
                </ul>
                <p className="mt-2">
-                  Žiadosti o prístup, opravu, výmaz, obmedzenie spracúvania, prenosnosť, námietku alebo odvolanie súhlasu pošlite písomne na túto adresu sídla alebo
-                  emailom.
+                  Žiadosti o prístup, opravu, výmaz, obmedzenie spracúvania, prenosnosť, námietku alebo odvolanie súhlasu pošlite písomne na túto adresu.
                </p>
             </section>
 
@@ -40,8 +38,8 @@ export function PrivacyPage() {
                <ul className="mt-3 list-disc space-y-3 pl-5">
                   <li>
                      <span className="font-medium text-stone-800">Novinky e-mailom.</span> Uložíme e-mailovú adresu (malými písmenami) a čas, kedy ste udelili súhlas.
-                     Neukladáme, z ktorej stránky ste sa prihlásili. Účel: krátke správy o nových funkciách Ostane z nájmu. Právny základ: súhlas podľa čl. 6 ods. 1 písm. a)
-                     GDPR, ktorý udeľujete zaškrtnutím políčka v formulári.
+                     Neukladáme, z ktorej stránky ste sa prihlásili. Účel: krátke správy o nových funkciách Ostane z nájmu. Právny základ: súhlas podľa čl. 6 ods. 1 písm.
+                     a) GDPR, ktorý udeľujete zaškrtnutím políčka v formulári.
                   </li>
                   <li>
                      <span className="font-medium text-stone-800">Nápady.</span> Uložíme text správy a e-mail, len ak ho vyplníte. Účel: prečítať návrh a v prípade
@@ -49,8 +47,8 @@ export function PrivacyPage() {
                   </li>
                   <li>
                      <span className="font-medium text-stone-800">Kalkulačka.</span> Čísla nájmu a výdavkov zostávajú vo vašom prehliadači pod kľúčom{' '}
-                     <code className="rounded bg-stone-100 px-1 py-0.5 text-xs text-stone-700">ostaneznajmu.calculator.draft</code> a po jednej hodine sa zahodia. Na server
-                     ich neposielame a nikde inde ich neukladáme.
+                     <code className="rounded bg-stone-100 px-1 py-0.5 text-xs text-stone-700">ostaneznajmu.calculator.draft</code> a po jednej hodine sa zahodia. Na
+                     server ich neposielame a nikde inde ich neukladáme.
                   </li>
                   <li>
                      <span className="font-medium text-stone-800">Technické údaje.</span> IP adresu do databázy nezapisujeme. Na obmedzenie zneužitia formulárov ju držíme
@@ -96,7 +94,7 @@ export function PrivacyPage() {
                </ul>
                <p className="mt-3">
                   Po odhlásení e-mail zo zoznamu noviniek vymažeme a z nápadov ho odstránime. Text nápadu ostáva. Ďalšie žiadosti o prístup, opravu alebo výmaz pošlite
-                  písomne na adresu sídla alebo emailom.
+                  písomne na adresu sídla.
                </p>
                <p className="mt-2">
                   Máte právo podať sťažnosť Úradu na ochranu osobných údajov Slovenskej republiky, Hraničná 12, 820 07 Bratislava 27,{' '}
@@ -125,7 +123,8 @@ export function PrivacyPage() {
             <section>
                <h2 className="text-base font-semibold tracking-tight text-stone-900">Súbory cookie</h2>
                <p className="mt-2">
-                  Ostane z nájmu neukladá súbory cookie, nespúšťa analytiku a nepoužíva reklamné značky. Koncept kalkulačky je v lokálnom úložisku prehliadača, nie v cookie.
+                  Ostane z nájmu neukladá súbory cookie, nespúšťa analytiku a nepoužíva reklamné značky. Koncept kalkulačky je v lokálnom úložisku prehliadača, nie v
+                  cookie.
                </p>
             </section>
          </div>
