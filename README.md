@@ -44,8 +44,14 @@ The first migration already lives in `prisma/migrations/` (like Laravel files in
 ### Render
 
 1. Create a **PostgreSQL** instance in the Render dashboard.
-2. On the web/API service, set `DATABASE_URL` to the **Internal Database URL** (SSL is included).
-3. Release/build should run `npx prisma migrate deploy` (not `migrate dev`), then `npm run build`.
+2. Create one **Web Service** at the **repo root** (Root Directory empty — not `src` or `frontend`).
+3. Set `DATABASE_URL` to the Postgres **Internal Database URL** (SSL is included).
+4. **Build command:** `npm install && npm run build && npm run db:deploy`
+5. **Start command:** `npm start`
+
+`npm run build` compiles the API and builds the React app into `frontend/dist`. The API serves that folder in production, so the UI and `/api/*` share one URL (no separate Static Site).
+
+Optional: set `CORS_ORIGIN` to your public `https://….onrender.com` URL if you later call the API from another origin.
 
 Do not point local Prisma at the production Render URL while developing.
 

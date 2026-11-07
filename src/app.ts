@@ -1,6 +1,37 @@
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import express from "express";
 import { sendError, sendOk } from "./http/apiResponse.js";
 import { engagementRouter } from "./routes/engagementRoutes.js";
+
+const frontendDist = path.resolve(
+   path.dirname(fileURLToPath(import.meta.url)),
+   "../frontend/dist",
+);
+
+function mountFrontend(app: express.Express) {
+   const indexPath = path.join(frontendDist, "index.html");
+   if (!fs.existsSync(indexPath)) {
+      return;
+   }
+
+   app.use(express.static(frontendDist));
+
+   app.use((req, res, next) => {
+      if (req.method !== "GET" && req.method !== "HEAD") {
+         next();
+         return;
+      }
+      if (req.path.startsWith("/api") || req.path === "/health") {
+         next();
+         return;
+      }
+      res.sendFile(indexPath, (err) => {
+         if (err) next(err);
+      });
+   });
+}
 
 export function createApp() {
    const app = express();
@@ -27,6 +58,8 @@ export function createApp() {
    });
 
    app.use("/api", engagementRouter);
+
+   mountFrontend(app);
 
    app.use((_req, res) => {
       sendError(res, 404, "not_found", "Nenájdené.");
