@@ -24,9 +24,9 @@ export function AppLayout() {
                <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3.5 sm:px-8">
                   <NavLink to="/" end className="flex items-center gap-3">
                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-900 text-sm font-semibold tracking-tight text-teal-50 shadow-sm">
-                        RF
+                        ON
                      </span>
-                     <span className="text-base font-semibold tracking-tight text-stone-900">RentFlow</span>
+                     <span className="text-base font-semibold tracking-tight text-stone-900">Ostane z nájmu</span>
                   </NavLink>
 
                   <nav className="hidden items-center gap-1 sm:flex" aria-label="Hlavná navigácia">

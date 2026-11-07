@@ -12,7 +12,7 @@ export function PlanPage() {
             </p>
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">Čo pripravujeme</h1>
             <p className="mt-3 max-w-2xl text-stone-600 lg:mx-0">
-               RentFlow rastie po malých krokoch. Toto je to, na čom pracujeme - nie sľub termínov a nie interný backlog.
+               Ostane z nájmu rastie po malých krokoch. Toto je to, na čom pracujeme - nie sľub termínov a nie interný backlog.
             </p>
          </div>
 

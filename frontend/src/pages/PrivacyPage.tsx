@@ -8,7 +8,7 @@ export function PrivacyPage() {
          </p>
          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">Ochrana osobných údajov</h1>
          <p className="mt-3 text-sm leading-relaxed text-stone-600">
-            Tieto informácie popisujú, ako RentFlow spracúva osobné údaje. Platí pre webovú kalkulačku, prihlásenie na novinky a formulár nápadov.
+            Tieto informácie popisujú, ako Ostane z nájmu spracúva osobné údaje. Platí pre webovú kalkulačku, prihlásenie na novinky a formulár nápadov.
          </p>
          <p className="mt-2 text-xs text-stone-500">Posledná aktualizácia: 4. november 2026</p>
 
@@ -40,7 +40,7 @@ export function PrivacyPage() {
                <ul className="mt-3 list-disc space-y-3 pl-5">
                   <li>
                      <span className="font-medium text-stone-800">Novinky e-mailom.</span> Uložíme e-mailovú adresu (malými písmenami) a čas, kedy ste udelili súhlas.
-                     Neukladáme, z ktorej stránky ste sa prihlásili. Účel: krátke správy o nových funkciách RentFlow. Právny základ: súhlas podľa čl. 6 ods. 1 písm. a)
+                     Neukladáme, z ktorej stránky ste sa prihlásili. Účel: krátke správy o nových funkciách Ostane z nájmu. Právny základ: súhlas podľa čl. 6 ods. 1 písm. a)
                      GDPR, ktorý udeľujete zaškrtnutím políčka v formulári.
                   </li>
                   <li>
@@ -49,7 +49,7 @@ export function PrivacyPage() {
                   </li>
                   <li>
                      <span className="font-medium text-stone-800">Kalkulačka.</span> Čísla nájmu a výdavkov zostávajú vo vašom prehliadači pod kľúčom{' '}
-                     <code className="rounded bg-stone-100 px-1 py-0.5 text-xs text-stone-700">rentflow.calculator.draft</code> a po jednej hodine sa zahodia. Na server
+                     <code className="rounded bg-stone-100 px-1 py-0.5 text-xs text-stone-700">ostaneznajmu.calculator.draft</code> a po jednej hodine sa zahodia. Na server
                      ich neposielame a nikde inde ich neukladáme.
                   </li>
                   <li>
@@ -125,7 +125,7 @@ export function PrivacyPage() {
             <section>
                <h2 className="text-base font-semibold tracking-tight text-stone-900">Súbory cookie</h2>
                <p className="mt-2">
-                  RentFlow neukladá súbory cookie, nespúšťa analytiku a nepoužíva reklamné značky. Koncept kalkulačky je v lokálnom úložisku prehliadača, nie v cookie.
+                  Ostane z nájmu neukladá súbory cookie, nespúšťa analytiku a nepoužíva reklamné značky. Koncept kalkulačky je v lokálnom úložisku prehliadača, nie v cookie.
                </p>
             </section>
          </div>
