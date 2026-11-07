@@ -30,11 +30,11 @@ export function HomePage() {
                </li>
                <li className="flex items-center gap-2">
                   <CheckIcon />
-                  Paušál vs. skutočné výdavky
+                  Skutočné výdavky a odhad dane
                </li>
                <li className="flex items-center gap-2">
                   <CheckIcon />
-                  Export pre účtovníka
+                  Čísla ostanú v prehliadači
                </li>
             </ul>
          </div>
