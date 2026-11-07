@@ -38,7 +38,9 @@ export function MethodologyPage() {
                <ol className="mt-3 list-decimal space-y-2 pl-5">
                   <li>Ročný nájom = mesačný nájom × 12.</li>
                   <li>Odpočíta sa oslobodenie 500 €, najviac však do výšky ročného nájmu.</li>
-                  <li>Z daňovo uznateľných výdavkov sa započíta len pomer (nájom − oslobodenie) / nájom. Pri nájme do 500 € je pomer 0.</li>
+                  <li>
+                     Krátené výdavky = daňovo uznateľné výdavky × (nájom − oslobodenie) / nájom. Pri nájme do 500 € je pomer 0, takže krátené výdavky sú 0 €.
+                  </li>
                   <li>Základ dane = nájom − oslobodenie − krátené výdavky, najmenej 0 €.</li>
                   <li>Daň = základ × 19 %. Pri základe 0 € je daň 0 €.</li>
                </ol>
@@ -50,12 +52,13 @@ export function MethodologyPage() {
                <p className="mt-2">Počítame s tým, že byt nie je v obchodnom majetku. Podľa dnešného katalógu daň znižujú len tieto položky:</p>
                <ul className="mt-3 list-disc space-y-1 pl-5">
                   <li>zálohy správcovi alebo bytovému družstvu,</li>
+                  <li>fond prevádzky, údržby a opráv, ak nie je už súčasťou týchto záloh,</li>
                   <li>elektrina, plyn, internet a televízia, ak ich platíte vy.</li>
                </ul>
+               <p className="mt-3">Fond zadajte len raz. Ak je na predpise spolu so zálohami, patrí do jedného riadku.</p>
                <p className="mt-3">Len v hotovosti, bez vplyvu na daň, ostávajú:</p>
                <ul className="mt-3 list-disc space-y-1 pl-5">
                   <li>rezerva na neobsadenosť a rezerva na obmenu,</li>
-                  <li>fond opráv,</li>
                   <li>daň z nehnuteľností, poistenie a revízie,</li>
                   <li>notárske poplatky a provízia realitnej kancelárii.</li>
                </ul>
