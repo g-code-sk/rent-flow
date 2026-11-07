@@ -1,6 +1,6 @@
-# RentFlow - product roadmap (docs)
+# Ostane z nájmu - product roadmap (docs)
 
-Documentation for building **RentFlow**: a SPA for **Slovak private landlords** who **long-term rent** residential property (typical nájom bytu / domu, not short-term platforms).
+Documentation for building **Ostane z nájmu**: a SPA for **Slovak private landlords** who **long-term rent** residential property (typical nájom bytu / domu, not short-term platforms).
 
 ## MVP scope
 

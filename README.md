@@ -1,4 +1,4 @@
-# RentFlow
+# Ostane z nájmu
 
 Slovak long-term rental calculator - Express API at the repo root, React app in `frontend/`.
 

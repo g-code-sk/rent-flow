@@ -1,7 +1,7 @@
 import { createEmptyCalculatorForm, setupYearlyCounts, type FormValues, type FormYearlyCounts } from '@/lib/calculator'
 import { expenses, type Expense } from '@/lib/expenses'
 
-export const CALCULATOR_DRAFT_KEY = 'rentflow.calculator.draft'
+export const CALCULATOR_DRAFT_KEY = 'ostaneznajmu.calculator.draft'
 export const CALCULATOR_DRAFT_TTL_MS = 60 * 60 * 1000
 
 export type CalculatorDraftState = {

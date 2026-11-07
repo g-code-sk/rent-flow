@@ -29,7 +29,7 @@ A boring, maintainable full-stack baseline so feature work in Phase 1 is mostly 
 ## Suggested structure
 
 ```text
-RentFlow/          Express + TS (backend root)
+Ostane z nájmu/   Express + TS (backend root)
   src/
   frontend/         React + Vite + TS (later)
   packages/
@@ -75,7 +75,7 @@ Requirements:
 
 ## Laravel → Node/React cheat sheet
 
-| Laravel          | RentFlow                        |
+| Laravel          | Ostane z nájmu                  |
 | ---------------- | ------------------------------- |
 | `routes/web.php` | React Router                    |
 | `routes/api.php` | Express `routes/`               |
