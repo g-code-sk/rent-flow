@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { waitlistSchema } from '@schemas/engagementSchemas'
+import { waitlistSchema } from '@/schemas/engagementSchemas'
 import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/Checkbox'
 import { FormProvider } from '@/components/ui/Form'

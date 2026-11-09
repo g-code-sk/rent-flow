@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { feedbackSchema } from '@schemas/engagementSchemas'
+import { feedbackSchema } from '@/schemas/engagementSchemas'
 import { Button } from '@/components/ui/Button'
 import { FormProvider } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'

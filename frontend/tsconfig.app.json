@@ -3,8 +3,7 @@
       "ignoreDeprecations": "6.0",
       "baseUrl": ".",
       "paths": {
-         "@/*": ["src/*"],
-         "@schemas/*": ["../src/schemas/*"]
+         "@/*": ["src/*"]
       },
       "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
       "target": "es2023",
@@ -29,5 +28,5 @@
       "erasableSyntaxOnly": false,
       "noFallthroughCasesInSwitch": true
    },
-   "include": ["src", "../src/schemas"]
+   "include": ["src"]
 }

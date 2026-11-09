@@ -1,66 +1,61 @@
 # Ostane z nájmu
 
-Slovak long-term rental calculator - Express API at the repo root, React app in `frontend/`.
+Slovak long-term rental calculator. Laravel API at the repo root, React app in `frontend/`.
 
-## Database (Postgres + Prisma)
+## Local setup
 
-No Docker. Local Postgres is like Valet + MySQL; [Render Postgres](https://render.com/docs/databases) is the production database.
-
-### One-time local setup
+PHP 8.3+, Composer, Node, and MySQL.
 
 ```bash
-brew install postgresql@16
-brew services start postgresql@16
-createdb rentflow
-```
-
-Copy [`.env.example`](.env.example) to `.env` and set `YOUR_MAC_USER` to the output of `whoami`:
-
-```bash
+composer install
 cp .env.example .env
+php artisan key:generate
 ```
 
-`DATABASE_URL` lives in `.env`. Prisma 7 reads it from [`prisma.config.ts`](prisma.config.ts) (like Laravel `config/database.php` pointing at `env('DB_...')`), not from `schema.prisma`.
-
-### Commands
-
-| npm                  | Laravel                                                    |
-| -------------------- | ---------------------------------------------------------- |
-| `npm run db:migrate` | `php artisan migrate` (create + apply)                     |
-| `npm run db:deploy`  | `php artisan migrate --force` (apply committed files only) |
-| `npm run db:studio`  | browse tables (TablePlus-style)                            |
-| `npm run db:reset`   | `php artisan migrate:fresh` - **local only**               |
+Create the database, then:
 
 ```bash
-npm install
-cp .env.example .env   # set YOUR_MAC_USER to `whoami`
-npm run db:deploy      # apply committed migrations (same as Render)
+php artisan migrate
+npm ci --prefix frontend
 ```
 
-The first migration already lives in `prisma/migrations/` (like Laravel files in git). Use `npm run db:migrate` later when you _change_ `schema.prisma` and need a new migration.
-
-`prisma/migrations/` is committed, same as Laravel’s `database/migrations/`.
-
-### Render
-
-1. Create a **PostgreSQL** instance in the Render dashboard.
-2. On the web/API service, set `DATABASE_URL` to the **Internal Database URL** (SSL is included).
-3. Release/build should run `npx prisma migrate deploy` (not `migrate dev`), then `npm run build`.
-
-Do not point local Prisma at the production Render URL while developing.
-
-## API (waitlist / feedback)
-
-`npm run dev` then:
+Two processes:
 
 ```bash
-curl -X POST http://localhost:3000/api/waitlist \
+php artisan serve
+npm run dev --prefix frontend
+```
+
+The Vite dev server on port 5173 proxies `/api` to `http://127.0.0.1:8000`.
+
+`QUEUE_CONNECTION=sync`. Form posts are handled in the request. A queue worker is not required.
+
+## Production build
+
+The document root is Laravel `public/`.
+
+```bash
+composer install --no-dev --optimize-autoloader
+npm ci --prefix frontend && npm run build --prefix frontend
+php artisan migrate --force
+```
+
+`npm run build` inside `frontend/` writes `index.html` and `assets/` into `public/` and does not delete `index.php`. Unknown GET paths fall back to `index.html`. `/api/*` stays on Laravel.
+
+On shared PHP hosting, point the domain at `public/`, set the MySQL credentials in `.env`, and run migrations over SSH when the host provides it.
+
+## API
+
+`php artisan serve`, then:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/waitlist \
   -H 'Content-Type: application/json' \
   -d '{"email":"you@example.com","consent":true}'
 
-curl -X POST http://localhost:3000/api/feedback \
+curl -X POST http://127.0.0.1:8000/api/feedback \
   -H 'Content-Type: application/json' \
   -d '{"body":"Chcem PDF export","email":"you@example.com"}'
 ```
 
-Success JSON is `{ "ok": true, "data": null }` (HTTP 201). Errors are `{ "ok": false, "error": { "code", "message", "details?" } }`. Hidden field `website` is a honeypot: if it is non-empty, the API returns the same success body and does not write. Duplicate waitlist emails also return success. Rate limit: 10 requests / 15 minutes / IP.
+Success JSON is `{ "ok": true, "data": null }` (HTTP 201 for waitlist and feedback, HTTP 200 for opt-out). Errors are `{ "ok": false, "error": { "code", "message", "details?" } }`. Hidden field `website` is a honeypot: if it is non-empty, the API returns success and does not write. Duplicate waitlist emails also return success. Rate limit: 3 requests / 15 minutes / IP.

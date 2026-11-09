@@ -10,7 +10,7 @@ export function PrivacyPage() {
          <p className="mt-3 text-sm leading-relaxed text-stone-600">
             Tieto informácie popisujú, ako Ostane z nájmu spracúva osobné údaje. Platí pre webovú kalkulačku, prihlásenie na novinky a formulár nápadov.
          </p>
-         <p className="mt-2 text-xs text-stone-500">Posledná aktualizácia: 4. november 2026</p>
+         <p className="mt-2 text-xs text-stone-500">Posledná aktualizácia: 7. november 2026</p>
 
          <div className="mt-10 space-y-8 text-sm leading-relaxed text-stone-600">
             <section>
@@ -52,7 +52,7 @@ export function PrivacyPage() {
                   </li>
                   <li>
                      <span className="font-medium text-stone-800">Technické údaje.</span> IP adresu do databázy nezapisujeme. Na obmedzenie zneužitia formulárov ju držíme
-                     v pamäti procesu najviac 15 minút. Poskytovateľ hostingu môže krátkodobo evidovať spojenia vo vlastných prevádzkových záznamoch.
+                     v cache najviac 15 minút. Poskytovateľ hostingu môže krátkodobo evidovať spojenia vo vlastných prevádzkových záznamoch.
                   </li>
                </ul>
                <p className="mt-3">
@@ -72,12 +72,8 @@ export function PrivacyPage() {
             <section>
                <h2 className="text-base font-semibold tracking-tight text-stone-900">Komu ich poskytujeme</h2>
                <p className="mt-2">
-                  Aplikácia a databáza PostgreSQL bežia u sprostredkovateľa Render (Render Services, Inc.). Render spracúva údaje podľa našich pokynov na prevádzku
-                  služby.
-               </p>
-               <p className="mt-2">
-                  Ak je databáza umiestnená mimo EHP, prenos je pokrytý zmluvnými podmienkami o spracúvaní údajov a štandardnými zmluvnými doložkami, ktoré Render
-                  používa.
+                  Aplikácia a databáza MySQL bežia u sprostredkovateľa Webglobe. Webglobe spracúva údaje podľa našich pokynov na prevádzku služby. Servery sú v Európskom
+                  hospodárskom priestore.
                </p>
                <p className="mt-2">Údaje neposkytujeme iným tretím stranám na ich vlastné účely.</p>
             </section>

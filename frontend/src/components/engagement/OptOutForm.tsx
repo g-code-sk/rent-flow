@@ -1,4 +1,4 @@
-import { optOutSchema } from '@schemas/engagementSchemas'
+import { optOutSchema } from '@/schemas/engagementSchemas'
 import { Button } from '@/components/ui/Button'
 import { FormProvider } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
